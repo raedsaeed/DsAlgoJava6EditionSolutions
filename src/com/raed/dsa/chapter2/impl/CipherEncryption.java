@@ -6,23 +6,32 @@ package com.raed.dsa.chapter2.impl;
 public class CipherEncryption {
     public static void main(String[] args) {
         CaesarCipher cipher = new CaesarCipher(3);
-        String hello = "H";
+        String hello = "Hi, Raed How are you?";
         String encryptedMessage = cipher.encrypt(hello);
-        System.out.println("Encoded message -> " + encryptedMessage);
-        System.out.println("Decoded message -> " + cipher.decrypt(encryptedMessage));
+        System.out.println("Encrypted message -> " + encryptedMessage);
+        System.out.println("Decrypted message -> " + cipher.decrypt(encryptedMessage));
     }
 
     public static class CaesarCipher {
-        private final char[] encoders = new char[26];
-        private final char[] decoders = new char[26];
+        private final int charactersNumber = 26;
+        private final char[] encoders = new char[charactersNumber * 2];
+        private final char[] decoders = new char[charactersNumber * 2];
 
         public CaesarCipher(int rotation) {
-            for (int i = 0; i < encoders.length; i++) {
-                char encoded = (char) ('A' + (i + rotation) % 26);
+            for (int i = 0; i < charactersNumber; i++) {
+                char encoded = (char) ('A' + (i + rotation) % charactersNumber);
                 encoders[i] = encoded;
 
-                char decoded = (char) ('A' + (i - rotation + 26) % 26);
+                char decoded = (char) ('A' + (i - rotation + charactersNumber) % charactersNumber);
                 decoders[i] = decoded;
+            }
+
+            for (int j = 26; j < encoders.length; j++) {
+                char encoded = (char) ('a' + (j + rotation) % charactersNumber);
+                encoders[j] = encoded;
+
+                char decoded = (char) ('a' + (j - rotation) % charactersNumber);
+                decoders[j] = decoded;
             }
         }
 
@@ -40,6 +49,10 @@ public class CipherEncryption {
                 if (Character.isUpperCase(message[j])) {
                     int indexOfDecoded = message[j] - 'A';
                     message[j] = coders[indexOfDecoded];
+
+                } else if (Character.isLowerCase(message[j])) {
+                    int indexOfDecoded = message[j] - 'a';
+                    message[j] = coders[indexOfDecoded + charactersNumber];
                 }
             }
 
