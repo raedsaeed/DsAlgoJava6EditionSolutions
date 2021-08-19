@@ -1,0 +1,99 @@
+package com.raed.dsa.chapter2.impl;
+
+/**
+ * Created by Raed Saeed on 8/19/2021
+ **/
+public class SingleLinkedList<T> {
+    private Node<T> head;
+    private Node<T> tail;
+    private int size;
+
+    public SingleLinkedList() {
+    }
+
+    public static void main(String[] args) {
+        SingleLinkedList<String> list = new SingleLinkedList<>();
+        list.addLast("Raed");
+        list.addLast("Ali");
+        list.addLast("Ahmed");
+        list.addLast("Saeed");
+        list.printElements();
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public T getFirst() {
+        if (isEmpty()) return null;
+        return head.getElement();
+    }
+
+    public T getLast() {
+        if (isEmpty()) return null;
+        return tail.getElement();
+    }
+
+    public void addFirst(T element) {
+        head = new Node<>(element, head);
+        if (isEmpty()) tail = head;
+        size++;
+    }
+
+    public void addLast(T element) {
+        Node<T> newNode = new Node<>(element, null);
+        if (isEmpty()) {
+            head = newNode;
+        } else {
+            tail.setNext(newNode);
+        }
+
+        tail = newNode; // set the object reference to the tail
+        size++;
+    }
+
+    public T removeFirst() {
+        if (isEmpty()) return null;
+        T element = head.element;
+        head = head.next;
+        size--;
+
+        if (isEmpty()) tail = null;
+
+        return element;
+    }
+
+    public void printElements() {
+        Node<T> printer = head;
+        while (printer != null) {
+            System.out.println(printer.element);
+            printer = printer.next;
+        }
+    }
+
+    private static class Node<E> {
+        private E element;
+        private Node<E> next;
+
+        public Node(E element, Node<E> next) {
+            this.element = element;
+            this.next = next;
+        }
+
+        public E getElement() {
+            return element;
+        }
+
+        public void setElement(E element) {
+            this.element = element;
+        }
+
+        public Node<E> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<E> next) {
+            this.next = next;
+        }
+    }
+}
