@@ -54,8 +54,8 @@ public class SingleLinkedList<T> {
 
     public T removeFirst() {
         if (isEmpty()) return null;
-        T element = head.element;
-        head = head.next;
+        T element = head.getElement();
+        head = head.getNext();
         size--;
 
         if (isEmpty()) tail = null;
@@ -66,34 +66,9 @@ public class SingleLinkedList<T> {
     public void printElements() {
         Node<T> printer = head;
         while (printer != null) {
-            System.out.println(printer.element);
-            printer = printer.next;
+            System.out.println(printer.getElement());
+            printer = printer.getNext();
         }
     }
 
-    private static class Node<E> {
-        private E element;
-        private Node<E> next;
-
-        public Node(E element, Node<E> next) {
-            this.element = element;
-            this.next = next;
-        }
-
-        public E getElement() {
-            return element;
-        }
-
-        public void setElement(E element) {
-            this.element = element;
-        }
-
-        public Node<E> getNext() {
-            return next;
-        }
-
-        public void setNext(Node<E> next) {
-            this.next = next;
-        }
-    }
 }
