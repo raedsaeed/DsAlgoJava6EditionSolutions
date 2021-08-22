@@ -3,7 +3,7 @@ package com.raed.dsa.chapter2.impl;
 /**
  * Created by Raed Saeed on 8/19/2021
  **/
-class Node<E> {
+public class Node<E> {
     private E element;
     private Node<E> next;
     private Node<E> prev;

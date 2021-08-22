@@ -16,7 +16,7 @@ public class TicToc {
         game.startGame();
     }
 
-    static class TicGame {
+   public static class TicGame {
         private final int[][] board;
         private final String playerOne;
         private final String playerTwo;

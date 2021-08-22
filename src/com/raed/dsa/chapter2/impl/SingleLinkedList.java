@@ -17,6 +17,8 @@ public class SingleLinkedList<T> {
         list.addLast("Ali");
         list.addLast("Ahmed");
         list.addLast("Saeed");
+        System.out.println("Normal size " + list.getNormalSize());
+        System.out.println("Size " + list.size);
         list.printElements();
     }
 
@@ -71,4 +73,14 @@ public class SingleLinkedList<T> {
         }
     }
 
+    public int getNormalSize() {
+        int size = 0;
+        Node<T> item = head;
+        if (item == null) return size;
+        while (item != null) {
+            size++;
+            item = item.getNext();
+        }
+        return size;
+    }
 }

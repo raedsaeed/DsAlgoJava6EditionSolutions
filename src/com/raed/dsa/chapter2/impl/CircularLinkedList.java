@@ -14,12 +14,10 @@ public class CircularLinkedList<T> {
     public static void main(String[] args) {
         CircularLinkedList<String> list = new CircularLinkedList<>();
         list.addFirst("Raed");
+        list.addLast("Naser");
         list.addLast("Saeed");
-
-        System.out.println("First element " + list.getFirst());
-        System.out.println("Last element " + list.getLast());
-        list.printElements(10);
-
+        System.out.println("Size is " + list.size);
+        System.out.println("Normal size is " + list.getNormalSize());
     }
 
     public boolean isEmpty() {
@@ -52,6 +50,15 @@ public class CircularLinkedList<T> {
         tail = tail.getNext();
     }
 
+    public Node<T> removeFirst() {
+        if (tail == null) return null;
+        Node<T> firstNode = tail.getNext();
+        Node<T> secondFirst = firstNode.getNext();
+        tail.setNext(secondFirst);
+        size--;
+        return firstNode;
+    }
+
     private void rotate() {
         if (tail != null)
             tail = tail.getNext();
@@ -62,5 +69,20 @@ public class CircularLinkedList<T> {
             rotate();
             System.out.println(tail.getElement());
         }
+    }
+
+    public int getNormalSize() {
+        if (tail == null) return size;
+        Node<T> first = tail.getNext();
+        Node<T> last = tail;
+        int size = 0;
+
+        while (first != null) {
+            size++;
+            first = first.getNext();
+            if (first == last.getNext()) break;
+        }
+
+        return size;
     }
 }
