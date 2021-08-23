@@ -16,14 +16,11 @@ public class DoublyLinkedList<T> {
 
     public static void main(String[] args) {
         DoublyLinkedList<String> list = new DoublyLinkedList<>();
-        list.addFirst("Naser");
-        list.addFirst("Raed");
-        list.addLast("Saeed");
-        list.removeFirst();
-        list.removeLast();
-        list.addFirst("Raed");
-        list.addLast("Saeed");
-        list.printElements();
+//        list.addFirst("Naser");
+//        list.addFirst("Raed");
+//        list.addLast("Saeed");
+        System.out.println("Size is " + list.size);
+        System.out.println("Normal size is " + list.getNormalSize());
     }
 
     public boolean isEmpty() {
@@ -84,5 +81,17 @@ public class DoublyLinkedList<T> {
             System.out.println(node.getElement());
             node = node.getNext();
         }
+    }
+
+    public int getNormalSize() {
+        Node<T> first = head.getNext();
+        if (first == tail) return 0;
+        int size = 0;
+        while (first != null) {
+            size++;
+            first = first.getNext();
+            if (first == tail) break;
+        }
+        return size;
     }
 }
