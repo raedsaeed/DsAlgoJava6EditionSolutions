@@ -4,8 +4,8 @@ package com.raed.dsa.chapter2.impl;
  * Created by Raed Saeed on 8/20/2021
  **/
 public class DoublyLinkedList<T> {
-    private final Node<T> head;
-    private final Node<T> tail;
+    private Node<T> head;
+    private Node<T> tail;
     private int size = 0;
 
     public DoublyLinkedList() {
@@ -15,12 +15,16 @@ public class DoublyLinkedList<T> {
     }
 
     public static void main(String[] args) {
-        DoublyLinkedList<String> list = new DoublyLinkedList<>();
-//        list.addFirst("Naser");
-//        list.addFirst("Raed");
-//        list.addLast("Saeed");
-        System.out.println("Size is " + list.size);
-        System.out.println("Normal size is " + list.getNormalSize());
+        DoublyLinkedList<String> list1 = new DoublyLinkedList<>();
+        DoublyLinkedList<String> list2 = new DoublyLinkedList<>();
+//        list1.addLast("Raed");
+//        list1.addLast("Ali");
+
+        list2.addLast("Ahmed");
+        list2.addLast("Saeed");
+        list1.concatenate(list2).printElements();
+//        System.out.println(list1.getLast());
+//        System.out.println(list2.getFirst());
     }
 
     public boolean isEmpty() {
@@ -81,6 +85,22 @@ public class DoublyLinkedList<T> {
             System.out.println(node.getElement());
             node = node.getNext();
         }
+    }
+
+    public DoublyLinkedList<T> concatenate(DoublyLinkedList<T> other) {
+        if (other == null) return this;
+        if (isEmpty()) {
+            head = other.head;
+        } else {
+            // lets take tail
+            Node<T> middle = other.head.getNext();
+            middle.setPrev(tail.getPrev());
+            tail.setElement(middle.getElement());
+            tail.setNext(middle.getNext());
+        }
+        tail = other.tail;
+        size += other.size;
+        return this;
     }
 
     public int getNormalSize() {

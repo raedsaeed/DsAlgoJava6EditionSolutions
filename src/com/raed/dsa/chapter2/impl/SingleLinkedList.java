@@ -12,14 +12,16 @@ public class SingleLinkedList<T> {
     }
 
     public static void main(String[] args) {
-        SingleLinkedList<String> list = new SingleLinkedList<>();
-        list.addLast("Raed");
-        list.addLast("Ali");
-        list.addLast("Ahmed");
-        list.addLast("Saeed");
-        System.out.println("Normal size " + list.getNormalSize());
-        System.out.println("Size " + list.size);
-        list.printElements();
+        SingleLinkedList<String> list1 = new SingleLinkedList<>();
+        SingleLinkedList<String> list2 = new SingleLinkedList<>();
+        list1.addFirst("Raed");
+        list1.addLast("Nasser");
+        list1.addLast("Ali");
+        list2.addLast("Ahmed");
+        list2.addLast("Saeed");
+        list1.concatenate(list2);
+        list1.swap(1, 3);
+        list1.printElements();
     }
 
     public boolean isEmpty() {
@@ -71,6 +73,69 @@ public class SingleLinkedList<T> {
             System.out.println(printer.getElement());
             printer = printer.getNext();
         }
+    }
+
+    /**
+     * Write a method concatenate two single lists
+     *
+     * @return SingleLinkedList
+     */
+
+    public SingleLinkedList<T> concatenate(SingleLinkedList<T> newList) {
+        if (isEmpty()) {
+            this.head = newList.head;
+        } else {
+            tail.setNext(newList.head);
+        }
+        this.tail = newList.tail;
+        size += newList.size;
+        return this;
+    }
+
+    public Node<T> getByIndex(int index) {
+        if (index < 0 || index > size) throw new IllegalArgumentException("Index " + index + ", List size is " + size);
+        if (isEmpty()) return null;
+        Node<T> node = head;
+        for (int i = 0; i != index; i++) {
+            node = node.getNext();
+        }
+        return node;
+    }
+
+    public void swap(int first, int second) {
+        if (first < 0 || first > size || second < 0 || second > size)
+            throw new IllegalArgumentException("First " + first + ", second " + second + ", List size is " + size);
+
+        if (second < first) swap(second, first);
+
+        Node<T> preFirst;
+        Node<T> firstNode;
+        Node<T> secondNode;
+        Node<T> preSecondNode = null;
+
+        if (first == 0) {
+            preFirst = getByIndex(second - 1);
+            firstNode = head;
+            secondNode = getByIndex(second);
+//            swap(preFirst, secondNode, firstNode);
+        } else {
+            preFirst = getByIndex(first - 1);
+            firstNode = getByIndex(first);
+            preSecondNode = getByIndex(second - 1);
+            secondNode = getByIndex(second);
+            swap(preFirst, firstNode, preSecondNode, secondNode);
+        }
+
+    }
+
+    private void swap(Node<T> preFirst, Node<T> first, Node<T> preSecond, Node<T> second) {
+        Node<T> temp = second.getNext();
+        preFirst.setNext(second);
+        second.setNext(first.getNext());
+        preSecond.setNext(first);
+        first.setNext(temp);
+
+//        second.setNext(first);
     }
 
     public int getNormalSize() {
