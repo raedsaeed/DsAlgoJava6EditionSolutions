@@ -20,7 +20,9 @@ public class SingleLinkedList<T> {
         list2.addLast("Ahmed");
         list2.addLast("Saeed");
         list1.concatenate(list2);
-        list1.swap(1, 3);
+
+        list1.swap("Ali", "Saeed");
+
         list1.printElements();
     }
 
@@ -102,41 +104,44 @@ public class SingleLinkedList<T> {
         return node;
     }
 
-    public void swap(int first, int second) {
-        if (first < 0 || first > size || second < 0 || second > size)
-            throw new IllegalArgumentException("First " + first + ", second " + second + ", List size is " + size);
+    public void swap(T first, T second) {
+        if (first == null || second == null) return;
 
-        if (second < first) swap(second, first);
-
-        Node<T> preFirst;
-        Node<T> firstNode;
-        Node<T> secondNode;
-        Node<T> preSecondNode = null;
-
-        if (first == 0) {
-            preFirst = getByIndex(second - 1);
-            firstNode = head;
-            secondNode = getByIndex(second);
-//            swap(preFirst, secondNode, firstNode);
-        } else {
-            preFirst = getByIndex(first - 1);
-            firstNode = getByIndex(first);
-            preSecondNode = getByIndex(second - 1);
-            secondNode = getByIndex(second);
-            swap(preFirst, firstNode, preSecondNode, secondNode);
+        Node<T> prevX = null;
+        Node<T> currX = head;
+        while (currX != null && currX.getElement() != first) {
+            prevX = currX;
+            currX = currX.getNext();
         }
 
+        Node<T> prevY = null;
+        Node<T> currY = head;
+        while (currY != null && currY.getElement() != second) {
+            prevY = currY;
+            currY = currY.getNext();
+        }
+
+        if (currX == null || currY == null) {
+            return;
+        }
+
+        if (prevX == null) {
+            head = currY;
+        } else {
+            prevX.setNext(currY);
+        }
+
+        if (prevY == null) {
+            head = currX;
+        } else {
+            prevY.setNext(currX);
+        }
+
+        Node<T> temp = currX.getNext();
+        currX.setNext(currY.getNext());
+        currY.setNext(temp);
     }
 
-    private void swap(Node<T> preFirst, Node<T> first, Node<T> preSecond, Node<T> second) {
-        Node<T> temp = second.getNext();
-        preFirst.setNext(second);
-        second.setNext(first.getNext());
-        preSecond.setNext(first);
-        first.setNext(temp);
-
-//        second.setNext(first);
-    }
 
     public int getNormalSize() {
         int size = 0;
@@ -147,5 +152,14 @@ public class SingleLinkedList<T> {
             item = item.getNext();
         }
         return size;
+    }
+
+    public Node<T> findElement(T element) {
+        Node<T> current = head;
+        while (current != null && current.getElement() != element) {
+            current = current.getNext();
+        }
+
+        return current;
     }
 }
