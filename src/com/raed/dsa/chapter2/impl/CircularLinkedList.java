@@ -16,8 +16,13 @@ public class CircularLinkedList<T> {
         list.addFirst("Raed");
         list.addLast("Naser");
         list.addLast("Saeed");
-        System.out.println("Size is " + list.size);
-        System.out.println("Normal size is " + list.getNormalSize());
+
+        CircularLinkedList<String> l2 = new CircularLinkedList<>();
+        l2.addFirst("Raed");
+        l2.addLast("Naser");
+        l2.addLast("Saeed");
+
+        System.out.println("Has same sequence " + list.hasSameSequence(l2));
     }
 
     public boolean isEmpty() {
@@ -84,5 +89,34 @@ public class CircularLinkedList<T> {
         }
 
         return size;
+    }
+
+    public boolean hasSameSequence(CircularLinkedList<T> other) {
+        if (tail == null || other.tail == null) return false;
+
+        Node<T> first = tail.getNext();
+        Node<T> firstStartingPoint = null;
+        Node<T> last = tail;
+        Node<T> otherStartingPoint = other.tail.getNext();
+        Node<T> otherLast = other.tail;
+
+        while (first != null) {
+            if (otherStartingPoint != null && first.getElement() == otherStartingPoint.getElement()) {
+                firstStartingPoint = first;
+                break;
+            }
+
+            first = first.getNext();
+            if (first == last.getNext()) break;
+        }
+
+        while (firstStartingPoint != null && otherStartingPoint != null && firstStartingPoint != last.getNext() && otherStartingPoint != otherLast.getNext()) {
+            if (firstStartingPoint.getElement() != otherStartingPoint.getElement()) return false;
+
+            firstStartingPoint = firstStartingPoint.getNext();
+            otherStartingPoint = otherStartingPoint.getNext();
+        }
+
+        return true;
     }
 }

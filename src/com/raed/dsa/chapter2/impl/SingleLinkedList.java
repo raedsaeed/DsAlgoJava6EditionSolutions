@@ -21,7 +21,7 @@ public class SingleLinkedList<T> {
         list2.addLast("Saeed");
         list1.concatenate(list2);
 
-        list1.swap("Ali", "Saeed");
+        list1.reverse();
 
         list1.printElements();
     }
@@ -161,5 +161,20 @@ public class SingleLinkedList<T> {
         }
 
         return current;
+    }
+
+    public void reverse() {
+        Node<T> current = head;
+        Node<T> prev = null;
+        Node<T> next;
+
+        while (current != null && current.getElement() != null) {
+            next = current.getNext();
+            current.setNext(prev);
+            prev = current;
+            current = next;
+        }
+
+        head = prev;
     }
 }
