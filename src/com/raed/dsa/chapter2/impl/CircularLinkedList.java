@@ -15,14 +15,12 @@ public class CircularLinkedList<T> {
         CircularLinkedList<String> list = new CircularLinkedList<>();
         list.addFirst("Raed");
         list.addLast("Naser");
+        list.addLast("Ali");
+        list.addLast("Mahmoud");
+        list.addLast("Ahmed");
         list.addLast("Saeed");
-
-        CircularLinkedList<String> l2 = new CircularLinkedList<>();
-        l2.addFirst("Raed");
-        l2.addLast("Naser");
-        l2.addLast("Saeed");
-
-        System.out.println("Has same sequence " + list.hasSameSequence(l2));
+        list.addLast("Mohamed");
+        list.splitInto2();
     }
 
     public boolean isEmpty() {
@@ -118,5 +116,37 @@ public class CircularLinkedList<T> {
         }
 
         return true;
+    }
+
+    public Node<T> getByIndex(int index) {
+        if (index < 0 || index > size) throw new IllegalArgumentException("Index " + index + ", List size is " + size);
+        if (isEmpty()) return null;
+        Node<T> node = tail.getNext();
+        for (int i = 0; i != index; i++) {
+            node = node.getNext();
+        }
+        return node;
+    }
+
+    public void splitInto2() {
+        Node<T> t1First = tail.getNext();
+        Node<T> t1Last = getByIndex(size / 2);
+        CircularLinkedList<T> l1 = new CircularLinkedList<>();
+        while (t1First.getElement() != null && t1First.getElement() != t1Last.getElement()) {
+            l1.addLast(t1First.getElement());
+            t1First = t1First.getNext();
+        }
+        System.out.println("First list");
+        l1.printElements(l1.size);
+
+        Node<T> t2First = getByIndex(size / 2);
+        Node<T> t2Last = tail.getNext();
+        CircularLinkedList<T> l2 = new CircularLinkedList<>();
+        while (t2First.getElement() != null && t2First.getElement() != t2Last.getElement()) {
+            l2.addLast(t2First.getElement());
+            t2First = t2First.getNext();
+        }
+        System.out.println("Second list");
+        l2.printElements(l2.size);
     }
 }
