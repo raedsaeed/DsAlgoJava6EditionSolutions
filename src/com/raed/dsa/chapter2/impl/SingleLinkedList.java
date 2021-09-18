@@ -3,7 +3,7 @@ package com.raed.dsa.chapter2.impl;
 /**
  * Created by Raed Saeed on 8/19/2021
  **/
-public class SingleLinkedList<T> {
+public class SingleLinkedList<T> implements LinkedList<T> {
     private Node<T> head;
     private Node<T> tail;
     private int size;
@@ -26,26 +26,36 @@ public class SingleLinkedList<T> {
         list1.printElements();
     }
 
-    public boolean isEmpty() {
-        return size == 0;
+    @Override
+    public int size() {
+        return size;
     }
 
+    @Override
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    @Override
     public T getFirst() {
         if (isEmpty()) return null;
         return head.getElement();
     }
 
+    @Override
     public T getLast() {
         if (isEmpty()) return null;
         return tail.getElement();
     }
 
+    @Override
     public void addFirst(T element) {
         head = new Node<>(element, head);
         if (isEmpty()) tail = head;
         size++;
     }
 
+    @Override
     public void addLast(T element) {
         Node<T> newNode = new Node<>(element, null);
         if (isEmpty()) {
@@ -58,6 +68,17 @@ public class SingleLinkedList<T> {
         size++;
     }
 
+    @Override
+    public T removeLast() {
+        return null;
+    }
+
+    @Override
+    public boolean contain(T t) {
+        return false;
+    }
+
+    @Override
     public T removeFirst() {
         if (isEmpty()) return null;
         T element = head.getElement();
@@ -69,6 +90,7 @@ public class SingleLinkedList<T> {
         return element;
     }
 
+    @Override
     public void printElements() {
         Node<T> printer = head;
         while (printer != null) {
@@ -142,7 +164,6 @@ public class SingleLinkedList<T> {
         currY.setNext(temp);
     }
 
-
     public int getNormalSize() {
         int size = 0;
         Node<T> item = head;
@@ -163,6 +184,7 @@ public class SingleLinkedList<T> {
         return current;
     }
 
+    @Override
     public void reverse() {
         Node<T> current = head;
         Node<T> prev = null;
@@ -176,5 +198,13 @@ public class SingleLinkedList<T> {
         }
 
         head = prev;
+    }
+
+    @Override
+    public void clear() {
+        while (size() > 0) {
+            removeFirst();
+        }
+        head = null;
     }
 }

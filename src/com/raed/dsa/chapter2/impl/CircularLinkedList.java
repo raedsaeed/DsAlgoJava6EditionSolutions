@@ -3,7 +3,7 @@ package com.raed.dsa.chapter2.impl;
 /**
  * Created by Raed Saeed on 8/19/2021
  **/
-public class CircularLinkedList<T> {
+public class CircularLinkedList<T> implements CircleLinkedList<T> {
     private Node<T> tail;
     private int size;
 
@@ -20,55 +20,109 @@ public class CircularLinkedList<T> {
         list.addLast("Ahmed");
         list.addLast("Saeed");
         list.addLast("Mohamed");
-        list.splitInto2();
+        System.out.println("First list ....");
+        list.printElements();
+        System.out.println("Clearing list now ");
+        list.clear();
+        System.out.println("First " + list.getFirst());
     }
 
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public T getFirst() {
         if (isEmpty()) return null;
         return tail.getNext().getElement();
     }
 
+    @Override
     public T getLast() {
         if (isEmpty()) return null;
         return tail.getElement();
     }
 
+    @Override
     public void addFirst(T element) {
         if (isEmpty()) {
-            tail = new Node<>(element, null);
+            tail = new Node<>(element, null, null);
             tail.setNext(tail);
+            tail.setPrev(tail);
         } else {
-            Node<T> newNode = new Node<>(element, tail.getNext());
+            Node<T> newNode = new Node<>(element, tail, tail.getNext());
             tail.setNext(newNode);
         }
         size++;
     }
 
+    @Override
     public void addLast(T element) {
         addFirst(element);
         tail = tail.getNext();
     }
 
-    public Node<T> removeFirst() {
+    @Override
+    public T removeFirst() {
         if (tail == null) return null;
         Node<T> firstNode = tail.getNext();
         Node<T> secondFirst = firstNode.getNext();
         tail.setNext(secondFirst);
         size--;
-        return firstNode;
+        return firstNode.getElement();
     }
 
-    private void rotate() {
+    @Override
+    public T removeLast() {
+        if (tail == null) return null;
+        Node<T> last = tail;
+        Node<T> preLast = last.getPrev();
+        Node<T> firstElement = last.getNext();
+        firstElement.setPrev(preLast);
+        preLast.setNext(firstElement);
+        tail = preLast;
+        size--;
+        return last.getElement();
+    }
+
+    @Override
+    public boolean contain(T t) {
+        return false;
+    }
+
+    @Override
+    public void printElements() {
+        printElements(size());
+    }
+
+    @Override
+    public void reverse() {
+
+    }
+
+    @Override
+    public void clear() {
+        if (isEmpty()) return;
+        while (size() > 0) {
+            removeFirst();
+        }
+        tail = null;
+    }
+
+    @Override
+    public void rotate() {
         if (tail != null)
             tail = tail.getNext();
     }
 
-    public void printElements(int count) {
-        for (int i = 0; i < count; i++) {
+    public void printElements(int size) {
+        for (int i = 0; i < size; i++) {
             rotate();
             System.out.println(tail.getElement());
         }
