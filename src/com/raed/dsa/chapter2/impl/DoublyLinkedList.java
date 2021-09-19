@@ -1,9 +1,11 @@
 package com.raed.dsa.chapter2.impl;
 
+import com.raed.dsa.chapter6.impl.Deque;
+
 /**
  * Created by Raed Saeed on 8/20/2021
  **/
-public class DoublyLinkedList<T> {
+public class DoublyLinkedList<T> implements Deque<T> {
     private Node<T> head;
     private Node<T> tail;
     private int size = 0;
@@ -27,37 +29,44 @@ public class DoublyLinkedList<T> {
 //        System.out.println(list2.getFirst());
     }
 
+    @Override
+    public int size() {
+        return size;
+    }
+
     public boolean isEmpty() {
         return size == 0;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public T getFirst() {
+    @Override
+    public T first() {
         if (isEmpty()) return null;
         return head.getNext().getElement();
     }
 
-    public T getLast() {
+    @Override
+    public T last() {
         if (isEmpty()) return null;
         return tail.getPrev().getElement();
     }
 
+    @Override
     public void addFirst(T element) {
         linkList(element, head, head.getNext());
     }
 
+    @Override
     public void addLast(T element) {
         linkList(element, tail.getPrev(), tail);
     }
 
+    @Override
     public T removeFirst() {
         if (isEmpty()) return null;
         return unLinkList(head.getNext());
     }
 
+    @Override
     public T removeLast() {
         if (isEmpty()) return null;
         return unLinkList(tail.getPrev());

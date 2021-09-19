@@ -46,6 +46,18 @@ public class LinkedStack<T> implements Stack<T> {
 
     @Override
     public void clear() {
-        data.clear();
+        recursiveClear();
+//        data.clear();
+    }
+
+    private void recursiveClear() {
+        if (top() != null) {
+            pop();
+            recursiveClear();
+        }
+    }
+
+    public void printElements() {
+        data.printElements();
     }
 }

@@ -65,4 +65,11 @@ public class ArrayStack<T> implements Stack<T> {
             }
         }
     }
+
+    private void recursiveClear() {
+        if (top() != null) {
+            pop();
+            recursiveClear();
+        }
+    }
 }
