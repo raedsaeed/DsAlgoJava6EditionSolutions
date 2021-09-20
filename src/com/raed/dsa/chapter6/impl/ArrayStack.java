@@ -5,7 +5,7 @@ package com.raed.dsa.chapter6.impl;
  **/
 
 @SuppressWarnings("unchecked")
-public class ArrayStack<T> implements Stack<T> {
+public class ArrayStack<T> implements Stack<T>, Cloneable {
     private static final int INITIAL_CAPACITY = 1000;
     private final T[] data;
     private int size = -1;
@@ -16,6 +16,12 @@ public class ArrayStack<T> implements Stack<T> {
 
     public ArrayStack(int capacity) {
         data = (T[]) new Object[capacity];
+    }
+
+    public ArrayStack(Stack<T> stack) {
+        this(stack.size());
+        this.size = stack.size();
+        copy(stack);
     }
 
     @Override
@@ -63,6 +69,15 @@ public class ArrayStack<T> implements Stack<T> {
                 data[size] = null;
                 size--;
             }
+        }
+    }
+
+    @Override
+    public void copy(Stack<T> source) {
+        int i = size - 1;
+        while (i >= 0) {
+            data[i] = source.pop();
+            i--;
         }
     }
 

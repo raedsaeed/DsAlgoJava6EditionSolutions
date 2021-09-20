@@ -13,6 +13,11 @@ public class LinkedQueue<E> implements Queue<E> {
         list = new SingleLinkedList<>();
     }
 
+    public LinkedQueue(Stack<E> stack) {
+        this();
+        copy(stack);
+    }
+
     @Override
     public int size() {
         return list.size();
@@ -45,6 +50,20 @@ public class LinkedQueue<E> implements Queue<E> {
     public void clear() {
         if (!isEmpty()) {
             list.clear();
+        }
+    }
+
+    @Override
+    public void copy(Stack<E> stack) {
+        while (stack.top() != null) {
+            enqueue(stack.pop());
+        }
+    }
+
+    @Override
+    public void copy(Queue<E> queue) {
+        while (queue.first() != null) {
+            enqueue(queue.dequeue());
         }
     }
 }

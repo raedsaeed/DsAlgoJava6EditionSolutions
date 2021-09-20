@@ -15,4 +15,10 @@ public interface Queue<E> {
     E first();
 
     void clear();
+
+    default void copy(Stack<E> stack) {
+    }
+
+    default void copy(Queue<E> queue) {
+    }
 }

@@ -3,11 +3,11 @@ package com.raed.dsa.chapter6.impl;
 /**
  * Created by Raed Saeed on 17/09/2021
  **/
-public class ArrayQueue<E> implements Queue<E> {
+public class ArrayQueue<E> implements Queue<E>, Cloneable {
     private static final int INITIAL_CAPACITY = 1000;
+    private final E[] data;
     private int size;
     private int first;
-    private final E[] data;
 
     public ArrayQueue() {
         this(INITIAL_CAPACITY);

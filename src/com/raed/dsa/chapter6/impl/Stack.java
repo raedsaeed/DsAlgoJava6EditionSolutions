@@ -15,4 +15,7 @@ public interface Stack<E> {
     E top();
 
     void clear();
+
+    default void copy(Stack<E> source) {
+    }
 }

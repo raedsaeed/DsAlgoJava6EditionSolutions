@@ -1,5 +1,6 @@
 package com.raed.dsa.chapter6.impl;
 
+import com.raed.dsa.chapter2.impl.DoublyLinkedList;
 import com.raed.dsa.chapter2.impl.LinkedList;
 import com.raed.dsa.chapter2.impl.SingleLinkedList;
 
@@ -11,6 +12,11 @@ public class LinkedStack<T> implements Stack<T> {
 
     public LinkedStack() {
         data = new SingleLinkedList<>();
+    }
+
+    public LinkedStack(Stack<T> stack) {
+        this();
+        copy(stack);
     }
 
     @Override
@@ -46,8 +52,7 @@ public class LinkedStack<T> implements Stack<T> {
 
     @Override
     public void clear() {
-        recursiveClear();
-//        data.clear();
+        data.clear();
     }
 
     private void recursiveClear() {
@@ -59,5 +64,23 @@ public class LinkedStack<T> implements Stack<T> {
 
     public void printElements() {
         data.printElements();
+    }
+
+    public void copy(Stack<T> stack) {
+        Deque<T> queue = new DoublyLinkedList<>();
+        while (stack.top() != null) {
+            queue.addFirst(stack.pop());
+        }
+
+        while (queue.first() != null) {
+            push(queue.removeFirst());
+        }
+    }
+
+    public void transfer(Stack<T> s, Stack<T> t) {
+        Stack<T> temp = new LinkedStack<>();
+        temp.copy(s);
+        s.copy(t);
+        t.copy(temp);
     }
 }
