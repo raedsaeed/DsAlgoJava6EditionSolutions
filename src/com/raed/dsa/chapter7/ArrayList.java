@@ -1,6 +1,8 @@
 package com.raed.dsa.chapter7;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Created by Raed Saeed on 26/09/2021
@@ -95,6 +97,11 @@ public class ArrayList<T> implements List<T> {
         size = 0;
     }
 
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayIterator<>();
+    }
+
     protected void checkIndex(int i, int n) {
         if (i < 0 || i >= n) {
             throw new IndexOutOfBoundsException("Illegal index: " + i);
@@ -118,5 +125,32 @@ public class ArrayList<T> implements List<T> {
             System.arraycopy(data, i + 1, data, i, newSize - i);
         }
         data[size = newSize] = null;
+    }
+
+    private class ArrayIterator<E> implements Iterator<E> {
+        private int j;
+        private boolean isRemovable = false;
+
+        @Override
+        public boolean hasNext() {
+            return j < size;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public E next() {
+            if (j == size) throw new NoSuchElementException("No next element");
+            isRemovable = true;
+            return (E) data[j++];
+        }
+
+        @Override
+        public void remove() {
+            if (!isRemovable) throw new IllegalStateException("Nothing to remove");
+            ArrayList.this.remove(data[j - 1]);
+            j--;
+            isRemovable = false;
+        }
+
     }
 }
