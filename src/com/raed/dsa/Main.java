@@ -40,7 +40,8 @@ public class Main {
 
 
         Object [] chars = {'A', 'B', 'C'};
-//        System.out.println("Subsets of it " + Utils.getSubsets(chars));
-        Utils.permute(chars, 0);
+        System.out.println("Subsets of it ");
+        Utils.getAllPermutation(chars, 0);
+//        Utils.permute(chars, 0);
     }
 }

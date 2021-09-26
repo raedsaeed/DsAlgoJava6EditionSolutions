@@ -1,6 +1,7 @@
 package com.raed.dsa.chapter6.impl;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Raed Saeed on 19/09/2021
@@ -114,13 +115,14 @@ public class Utils {
 //        }
     }
 
-    public static void getAllPermutation(Object[] arr) {
-        int length = arr.length;
-        int size = factorial(length);
-        for (int i = 0; i < size; i++) {
-            int first = i % (length - 1);
-            int second = first + 1;
-            swap(arr, first, second);
+    public static void getAllPermutation(Object[] arr, int index) {
+        for (int i = index; i < arr.length; i++) {
+            swap(arr, i, index);
+            permute(arr, index + 1);
+            swap(arr, i, index);
+        }
+
+        if (index == arr.length - 1) {
             System.out.println(Arrays.toString(arr));
         }
     }
@@ -129,7 +131,7 @@ public class Utils {
         for (int i = k; i < arr.length; i++) {
             swap(arr, i, k);
             permute(arr, k + 1);
-            swap(arr, k, i);
+            swap(arr, i, k);
         }
 
         if (k == arr.length - 1) {
