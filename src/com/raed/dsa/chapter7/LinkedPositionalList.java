@@ -2,6 +2,7 @@ package com.raed.dsa.chapter7;
 
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Created by Raed Saeed on 26/09/2021
@@ -101,7 +102,7 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new ElementIterator();
     }
 
     @Override
@@ -168,4 +169,60 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
             this.prev = prev;
         }
     }
+
+    private class PositionIterator implements Iterator<T> {
+        private Position<T> cursor = first();
+        private Position<T> recent = null;
+
+        @Override
+        public boolean hasNext() {
+            return cursor != null;
+        }
+
+        @Override
+        public T next() throws NoSuchElementException {
+            if (cursor == null) throw new NoSuchElementException("No element found");
+            recent = cursor;
+            cursor = after(cursor);
+            return recent.getElement();
+        }
+
+        @Override
+        public void remove() throws IllegalArgumentException {
+            if (recent == null) throw new IllegalArgumentException("Nothing to remove");
+            LinkedPositionalList.this.remove(recent);
+            recent = null;
+        }
+    }
+
+    private class PositionalIterable implements Iterable<T> {
+        @Override
+        public Iterator<T> iterator() {
+            return new PositionIterator();
+        }
+    }
+
+    public Iterable<T> positions() {
+        return new PositionalIterable();
+    }
+
+    @SuppressWarnings("unchecked")
+    private class ElementIterator implements Iterator<T> {
+        Iterator<Position<T>> positionIterator = (Iterator<Position<T>>) new PositionIterator();
+        @Override
+        public boolean hasNext() {
+            return positionIterator.hasNext();
+        }
+
+        @Override
+        public T next() {
+            return positionIterator.next().getElement();
+        }
+
+        @Override
+        public void remove() {
+            positionIterator.remove();
+        }
+    }
+
 }

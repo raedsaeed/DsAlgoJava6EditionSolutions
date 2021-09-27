@@ -99,7 +99,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new ArrayIterator<>();
+        return new ArrayIterator();
     }
 
     protected void checkIndex(int i, int n) {
@@ -127,7 +127,7 @@ public class ArrayList<T> implements List<T> {
         data[size = newSize] = null;
     }
 
-    private class ArrayIterator<E> implements Iterator<E> {
+    private class ArrayIterator implements Iterator<T> {
         private int j;
         private boolean isRemovable = false;
 
@@ -136,12 +136,11 @@ public class ArrayList<T> implements List<T> {
             return j < size;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
-        public E next() {
+        public T next() {
             if (j == size) throw new NoSuchElementException("No next element");
             isRemovable = true;
-            return (E) data[j++];
+            return data[j++];
         }
 
         @Override

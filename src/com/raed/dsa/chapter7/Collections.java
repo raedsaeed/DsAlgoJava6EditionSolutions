@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 /**
  * Created by Raed Saeed on 26/09/2021
  **/
-public interface Collections<T> extends Iterable<T>{
+public interface Collections<T> extends Iterable<T> {
     int size();
 
     boolean isEmpty();

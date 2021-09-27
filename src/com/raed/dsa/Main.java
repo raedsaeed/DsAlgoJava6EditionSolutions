@@ -1,6 +1,7 @@
 package com.raed.dsa;
 
 import com.raed.dsa.chapter6.impl.Utils;
+import com.raed.dsa.chapter7.ArrayList;
 
 public class Main {
 
@@ -35,13 +36,22 @@ public class Main {
 //                "</ol>\n" +
 //                "</body>"));
 
-        String equation = "((5+2)*(8-3))/4";
-        System.out.println("Postfix notation for " + equation + " -> " + Utils.postfixNotation(equation));
-
-
-        Object [] chars = {'A', 'B', 'C'};
-        System.out.println("Subsets of it ");
-        Utils.getAllPermutation(chars, 0);
+//        String equation = "((5+2)*(8-3))/4";
+//        System.out.println("Postfix notation for " + equation + " -> " + Utils.postfixNotation(equation));
+//
+//
+//        Object [] chars = {'A', 'B', 'C'};
+//        System.out.println("Subsets of it ");
+//        Utils.getAllPermutation(chars, 0);
 //        Utils.permute(chars, 0);
+
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            list.add(i);
+        }
+
+        for (Integer i : list) {
+            System.out.println("My list worked with iterator " + i);
+        }
     }
 }
