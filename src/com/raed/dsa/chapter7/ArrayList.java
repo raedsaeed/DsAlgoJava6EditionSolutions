@@ -102,6 +102,12 @@ public class ArrayList<T> implements List<T> {
         return new ArrayIterator();
     }
 
+    public void trimToSize() {
+        if (size > DEFAULT_CAPACITY) {
+            data = Arrays.copyOf(data, size);
+        }
+    }
+
     protected void checkIndex(int i, int n) {
         if (i < 0 || i >= n) {
             throw new IndexOutOfBoundsException("Illegal index: " + i);

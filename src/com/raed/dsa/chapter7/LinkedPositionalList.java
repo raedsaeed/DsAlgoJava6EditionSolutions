@@ -170,7 +170,7 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
         }
     }
 
-    private class PositionIterator implements Iterator<T> {
+    private class PositionIterator implements Iterator<Position<T>> {
         private Position<T> cursor = first();
         private Position<T> recent = null;
 
@@ -180,11 +180,11 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
         }
 
         @Override
-        public T next() throws NoSuchElementException {
+        public Position<T> next() throws NoSuchElementException {
             if (cursor == null) throw new NoSuchElementException("No element found");
             recent = cursor;
             cursor = after(cursor);
-            return recent.getElement();
+            return recent;
         }
 
         @Override
@@ -195,20 +195,19 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
         }
     }
 
-    private class PositionalIterable implements Iterable<T> {
+    private class PositionalIterable implements Iterable<Position<T>> {
         @Override
-        public Iterator<T> iterator() {
+        public Iterator<Position<T>> iterator() {
             return new PositionIterator();
         }
     }
 
-    public Iterable<T> positions() {
+    public Iterable<Position<T>> positions() {
         return new PositionalIterable();
     }
 
-    @SuppressWarnings("unchecked")
     private class ElementIterator implements Iterator<T> {
-        Iterator<Position<T>> positionIterator = (Iterator<Position<T>>) new PositionIterator();
+        Iterator<Position<T>> positionIterator = new PositionIterator();
         @Override
         public boolean hasNext() {
             return positionIterator.hasNext();
