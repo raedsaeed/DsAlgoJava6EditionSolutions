@@ -110,6 +110,28 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
 
     }
 
+    @Override
+    public int indexOf(Position<T> p) {
+        int index = -1;
+        if (validate(p) != null) {
+            for (Position<T> position : positions()) {
+                index++;
+                if (p.getElement().equals(position.getElement())) break;
+            }
+        }
+        return index;
+    }
+
+    @Override
+    public Position<T> findPosition(T e) {
+        Position<T> position = first();
+        while (position != null) {
+            if (position.getElement().equals(e)) return position;
+            position = after(position);
+        }
+        return null;
+    }
+
     private Node<T> validate(Position<T> p) throws IllegalArgumentException {
         if (!(p instanceof Node<T> node)) throw new IllegalArgumentException("Invalid Position");
         if (node.getNext() == null)
@@ -128,6 +150,10 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
         next.setPrev(newNode);
         size++;
         return newNode;
+    }
+
+    public Iterable<Position<T>> positions() {
+        return new PositionalIterable();
     }
 
     private static class Node<T> implements Position<T> {
@@ -202,12 +228,9 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
         }
     }
 
-    public Iterable<Position<T>> positions() {
-        return new PositionalIterable();
-    }
-
     private class ElementIterator implements Iterator<T> {
         Iterator<Position<T>> positionIterator = new PositionIterator();
+
         @Override
         public boolean hasNext() {
             return positionIterator.hasNext();

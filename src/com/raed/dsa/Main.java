@@ -2,6 +2,8 @@ package com.raed.dsa;
 
 import com.raed.dsa.chapter6.impl.Utils;
 import com.raed.dsa.chapter7.ArrayList;
+import com.raed.dsa.chapter7.LinkedPositionalList;
+import com.raed.dsa.chapter7.PositionalList;
 
 public class Main {
 

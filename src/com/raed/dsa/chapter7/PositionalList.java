@@ -31,4 +31,7 @@ public interface PositionalList<T> extends Collections<T> {
 
     T remove(Position<T> position) throws IllegalArgumentException;
 
+    int indexOf(Position<T> p);
+
+    Position<T> findPosition(T e);
 }
