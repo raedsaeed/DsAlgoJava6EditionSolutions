@@ -1,9 +1,9 @@
 package com.raed.dsa;
 
-import com.raed.dsa.chapter6.impl.Utils;
 import com.raed.dsa.chapter7.ArrayList;
-import com.raed.dsa.chapter7.LinkedPositionalList;
-import com.raed.dsa.chapter7.PositionalList;
+import com.raed.dsa.chapter7.LinkedPositionalQueue;
+
+import java.util.Iterator;
 
 public class Main {
 
@@ -54,6 +54,24 @@ public class Main {
 
         for (Integer i : list) {
             System.out.println("My list worked with iterator " + i);
+        }
+
+        LinkedPositionalQueue<String> queue = new LinkedPositionalQueue<>();
+        queue.enqueue("Raed");
+        queue.enqueue("Naser");
+        queue.enqueue("Ali");
+        queue.enqueue("Ahmed");
+        queue.enqueue("Saeed");
+        queue.dequeue();
+        for (Iterator<String> it = queue.iterator(); it.hasNext(); ) {
+            String st = it.next();
+            if (st.equals("Ali")) {
+                it.remove();
+            }
+        }
+
+        for (String st : queue) {
+            System.out.println("String in queue " + st);
         }
     }
 }

@@ -107,7 +107,16 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
 
     @Override
     public void clear() {
+        Position<T> entry = first();
+        while (entry != null) {
+            Position<T> next = after(entry);
+            remove(entry);
+            entry = next;
+        }
 
+        head.setNext(tail);
+        tail.setPrev(head);
+        size = 0;
     }
 
     @Override
@@ -144,6 +153,12 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
         return node;
     }
 
+    private Node<T> position(Position<T> position) {
+        if (!(position instanceof Node<T> node)) return null;
+        if (node.getNext() == null) return null;
+        return (Node<T>) position;
+    }
+
     private Position<T> addBetween(T e, Node<T> prev, Node<T> next) {
         Node<T> newNode = new Node<>(e, prev, next);
         prev.setNext(newNode);
@@ -154,46 +169,6 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
 
     public Iterable<Position<T>> positions() {
         return new PositionalIterable();
-    }
-
-    private static class Node<T> implements Position<T> {
-        private Node<T> next;
-        private Node<T> prev;
-        private T element;
-
-        public Node(T e, Node<T> prev, Node<T> next) {
-            this.element = e;
-            this.prev = prev;
-            this.next = next;
-        }
-
-        @Override
-        public T getElement() throws IllegalStateException {
-            if (next == null) {
-                throw new IllegalStateException("Position no longer valid");
-            }
-            return element;
-        }
-
-        public void setElement(T element) {
-            this.element = element;
-        }
-
-        public Node<T> getNext() {
-            return next;
-        }
-
-        public void setNext(Node<T> next) {
-            this.next = next;
-        }
-
-        public Node<T> getPrev() {
-            return prev;
-        }
-
-        public void setPrev(Node<T> prev) {
-            this.prev = prev;
-        }
     }
 
     private class PositionIterator implements Iterator<Position<T>> {
@@ -247,4 +222,43 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
         }
     }
 
+    private static class Node<T> implements Position<T> {
+        private Node<T> next;
+        private Node<T> prev;
+        private T element;
+
+        public Node(T e, Node<T> prev, Node<T> next) {
+            this.element = e;
+            this.prev = prev;
+            this.next = next;
+        }
+
+        @Override
+        public T getElement() throws IllegalStateException {
+            if (next == null) {
+                throw new IllegalStateException("Position no longer valid");
+            }
+            return element;
+        }
+
+        public void setElement(T element) {
+            this.element = element;
+        }
+
+        public Node<T> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<T> next) {
+            this.next = next;
+        }
+
+        public Node<T> getPrev() {
+            return prev;
+        }
+
+        public void setPrev(Node<T> prev) {
+            this.prev = prev;
+        }
+    }
 }
