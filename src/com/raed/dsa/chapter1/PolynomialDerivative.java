@@ -24,14 +24,29 @@ class PolynomialDerivative {
         } else {
             x = Integer.parseInt(xValue);
         }
+        equation = equation.replaceAll(" ", "");
+        String[] equs = equation.split("[+\\-*/]");
+        return getAnswerWithRecursion(equs, 0, x);
+    }
 
-        String[] equs = equation.split("\\+|-|\\*|/");
-        int answer = 0;
-        for (String s : equs) {
-            answer += getAnswer(s.trim(), x);
+    static int getAnswerWithRecursion(String[] equations, int index, int xValue) {
+        int result = 0;
+        if (index < equations.length) {
+            int numberBeforeX = 1;
+            int power = 1;
+            String[] numberBeforeXAndPower = equations[index].replaceAll("[^0-9]", " ")
+                    .split("\\s+", 2);
+
+            if (numberBeforeXAndPower.length < 2) {
+                return 0;
+            }
+
+            numberBeforeX = (!numberBeforeXAndPower[0].isEmpty()) ? Integer.parseInt(numberBeforeXAndPower[0].trim()) : 1;
+            power = (!numberBeforeXAndPower[1].isEmpty()) ? Integer.parseInt(numberBeforeXAndPower[1].trim()) : 1;
+            result = (int) (numberBeforeX * power * Math.pow(xValue, power -1));
+            return result + getAnswerWithRecursion(equations, ++index, xValue);
         }
-
-        return answer;
+        return result;
     }
 
     static int getAnswer(String pro, int xValue) {

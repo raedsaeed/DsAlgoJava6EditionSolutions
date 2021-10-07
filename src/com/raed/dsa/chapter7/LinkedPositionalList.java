@@ -141,7 +141,50 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
         return null;
     }
 
+    public void swap(Position<T> first, Position<T> second) {
+        if (first == null || second == null) return;
+
+        Position<T> prevX = null;
+        Position<T> currX = first();
+        while (currX != null && currX.getElement() != first.getElement()) {
+            prevX = currX;
+            currX = after(currX);
+        }
+
+        Position<T> prevY = null;
+        Position<T> currY = first();
+        while (currY != null && currY.getElement() != second.getElement()) {
+            prevY = currY;
+            currY = after(currY);
+        }
+
+        if (currX == null || currY == null) {
+            return;
+        }
+
+        T elementAtX = remove(currX);
+        T elementAtY = remove(currY);
+
+        if (prevX == null) {
+            addFirst(elementAtY);
+        } else {
+            addAfter(prevX, elementAtY);
+        }
+
+        if (prevY == null) {
+            addFirst(elementAtX);
+        } else {
+            addAfter(prevY, elementAtX);
+        }
+    }
+    
+    public void moveToFront(Position<T> position) {
+        addFirst(remove(position));
+    }
+
     private Node<T> validate(Position<T> p) throws IllegalArgumentException {
+        // convert position to node then check this node if it has next (item or tail)
+        // this main the position already exist whether the position is first item or last item
         if (!(p instanceof Node<T> node)) throw new IllegalArgumentException("Invalid Position");
         if (node.getNext() == null)
             throw new IllegalArgumentException("Position is no longer in list");
@@ -169,6 +212,46 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
 
     public Iterable<Position<T>> positions() {
         return new PositionalIterable();
+    }
+
+    private static class Node<T> implements Position<T> {
+        private Node<T> next;
+        private Node<T> prev;
+        private T element;
+
+        public Node(T e, Node<T> prev, Node<T> next) {
+            this.element = e;
+            this.prev = prev;
+            this.next = next;
+        }
+
+        @Override
+        public T getElement() throws IllegalStateException {
+            if (next == null) {
+                throw new IllegalStateException("Position no longer valid");
+            }
+            return element;
+        }
+
+        public void setElement(T element) {
+            this.element = element;
+        }
+
+        public Node<T> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<T> next) {
+            this.next = next;
+        }
+
+        public Node<T> getPrev() {
+            return prev;
+        }
+
+        public void setPrev(Node<T> prev) {
+            this.prev = prev;
+        }
     }
 
     private class PositionIterator implements Iterator<Position<T>> {
@@ -219,46 +302,6 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
         @Override
         public void remove() {
             positionIterator.remove();
-        }
-    }
-
-    private static class Node<T> implements Position<T> {
-        private Node<T> next;
-        private Node<T> prev;
-        private T element;
-
-        public Node(T e, Node<T> prev, Node<T> next) {
-            this.element = e;
-            this.prev = prev;
-            this.next = next;
-        }
-
-        @Override
-        public T getElement() throws IllegalStateException {
-            if (next == null) {
-                throw new IllegalStateException("Position no longer valid");
-            }
-            return element;
-        }
-
-        public void setElement(T element) {
-            this.element = element;
-        }
-
-        public Node<T> getNext() {
-            return next;
-        }
-
-        public void setNext(Node<T> next) {
-            this.next = next;
-        }
-
-        public Node<T> getPrev() {
-            return prev;
-        }
-
-        public void setPrev(Node<T> prev) {
-            this.prev = prev;
         }
     }
 }

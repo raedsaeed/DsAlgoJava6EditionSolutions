@@ -1,9 +1,8 @@
 package com.raed.dsa;
 
-import com.raed.dsa.chapter7.ArrayList;
-import com.raed.dsa.chapter7.LinkedPositionalQueue;
+import com.raed.dsa.chapter7.*;
 
-import java.util.Iterator;
+import java.util.Random;
 
 public class Main {
 
@@ -47,31 +46,26 @@ public class Main {
 //        Utils.getAllPermutation(chars, 0);
 //        Utils.permute(chars, 0);
 
-        ArrayList<Integer> list = new ArrayList<>();
+        LinkedPositionalList<Integer> arrayList = new LinkedPositionalList<>();
         for (int i = 0; i < 10; i++) {
-            list.add(i);
+            arrayList.addLast(i );
         }
 
-        for (Integer i : list) {
-            System.out.println("My list worked with iterator " + i);
+        int randomItemOne = new Random().nextInt(10);
+        int randomItemOTwo = new Random().nextInt(10);
+
+        Position<Integer> first = arrayList.findPosition(randomItemOne);
+        Position<Integer> second = arrayList.findPosition(randomItemOTwo);
+
+        for (Integer integer : arrayList) {
+            System.out.println("integer is " + integer);
         }
 
-        LinkedPositionalQueue<String> queue = new LinkedPositionalQueue<>();
-        queue.enqueue("Raed");
-        queue.enqueue("Naser");
-        queue.enqueue("Ali");
-        queue.enqueue("Ahmed");
-        queue.enqueue("Saeed");
-        queue.dequeue();
-        for (Iterator<String> it = queue.iterator(); it.hasNext(); ) {
-            String st = it.next();
-            if (st.equals("Ali")) {
-                it.remove();
-            }
-        }
+        System.out.println("Swapping " + first.getElement() + " with " + second.getElement());
+        arrayList.swap(first, second);
 
-        for (String st : queue) {
-            System.out.println("String in queue " + st);
+        for (Integer integer : arrayList) {
+            System.out.println("Integer is " + integer);
         }
     }
 }

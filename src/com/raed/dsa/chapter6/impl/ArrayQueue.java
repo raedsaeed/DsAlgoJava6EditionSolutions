@@ -1,38 +1,36 @@
 package com.raed.dsa.chapter6.impl;
 
+import com.raed.dsa.chapter7.ArrayList;
+import com.raed.dsa.chapter7.List;
+
 /**
  * Created by Raed Saeed on 17/09/2021
  **/
 public class ArrayQueue<E> implements Queue<E>, Cloneable {
-    private static final int INITIAL_CAPACITY = 1000;
-    private final E[] data;
-    private int size;
-    private int first;
+    private static final int INITIAL_CAPACITY = 16;
+    private final List<E> data;
 
     public ArrayQueue() {
         this(INITIAL_CAPACITY);
     }
 
-    @SuppressWarnings("unchecked")
     public ArrayQueue(int capacity) {
-        data = (E[]) new Object[capacity];
+        data = new ArrayList<>(capacity);
     }
 
     @Override
     public int size() {
-        return size;
+        return data.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return size == 0;
+        return data.isEmpty();
     }
 
     @Override
     public void enqueue(E e) {
-        if (data.length == size) throw new IllegalArgumentException("Queue is full");
-        int available = (first + size) % data.length;
-        data[available] = e;
+        data.add(e);
     }
 
     @Override
@@ -40,11 +38,7 @@ public class ArrayQueue<E> implements Queue<E>, Cloneable {
         if (isEmpty()) {
             return null;
         }
-        E temp = data[first];
-        data[first] = null;
-        first = (first + 1) % data.length;
-        size--;
-        return temp;
+        return data.remove(0);
     }
 
     @Override
@@ -52,13 +46,25 @@ public class ArrayQueue<E> implements Queue<E>, Cloneable {
         if (isEmpty()) {
             return null;
         }
-        return data[first];
+        return data.get(0);
     }
 
     @Override
     public void clear() {
-        while (size != 0) {
+        while (size() != 0) {
             dequeue();
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected ArrayQueue<E> clone() throws CloneNotSupportedException {
+        ArrayQueue<E> clone = null;
+        try {
+            clone = (ArrayQueue<E>) super.clone();
+        } catch (CloneNotSupportedException ignore) {
+
+        }
+        return clone;
     }
 }

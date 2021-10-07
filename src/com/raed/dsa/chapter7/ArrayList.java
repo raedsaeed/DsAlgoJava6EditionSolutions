@@ -8,9 +8,9 @@ import java.util.NoSuchElementException;
  * Created by Raed Saeed on 26/09/2021
  **/
 public class ArrayList<T> implements List<T> {
-    private static final int DEFAULT_CAPACITY = 10;
-    private T[] data;
-    private int size = 0;
+    protected static final int DEFAULT_CAPACITY = 10;
+    protected T[] data;
+    protected int size = 0;
 
     public ArrayList() {
         this(DEFAULT_CAPACITY);
@@ -94,6 +94,9 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void clear() {
+        for (int i = 0; i < size; i++) {
+            data[i] = null;
+        }
         size = 0;
     }
 
@@ -102,24 +105,22 @@ public class ArrayList<T> implements List<T> {
         return new ArrayIterator();
     }
 
-    public void trimToSize() {
-        if (size > DEFAULT_CAPACITY) {
-            data = Arrays.copyOf(data, size);
-        }
-    }
-
     protected void checkIndex(int i, int n) {
         if (i < 0 || i >= n) {
             throw new IndexOutOfBoundsException("Illegal index: " + i);
         }
     }
 
-    private void grow() {
+    protected void grow() {
         // 1 -> 0001
         // (1 << 1) -> 0010 -> 2
         // (2 << 1) -> 0100 -> 4
         // (4 << 1) -> 1000 -> 8
         data = Arrays.copyOf(data, (size + (size << 1)));
+    }
+
+    private void trimToSize(int newSize) {
+        data = Arrays.copyOf(data, newSize);
     }
 
     private void fastRemove(int i) {
@@ -131,6 +132,12 @@ public class ArrayList<T> implements List<T> {
             System.arraycopy(data, i + 1, data, i, newSize - i);
         }
         data[size = newSize] = null;
+
+        // if new size less than 25% of array length shrink the array to 50% of it's current length
+        // e.g new size = 10, array length = 100 -> (10 < 100/4) = 10 < 25 true -> shrink the array to 50
+        if (newSize < data.length / 4) {
+            trimToSize(data.length / 2);
+        }
     }
 
     private class ArrayIterator implements Iterator<T> {
