@@ -12,9 +12,13 @@ public interface Collections<T> extends Iterable<T> {
 
     boolean isEmpty();
 
-    Object[] toArray();
+    void clear();
 
     Iterator<T> iterator();
+
+    default Object[] toArray() {
+        return null;
+    }
 
     @Override
     default void forEach(Consumer<? super T> action) {
@@ -25,6 +29,4 @@ public interface Collections<T> extends Iterable<T> {
     default Spliterator<T> spliterator() {
         return Iterable.super.spliterator();
     }
-
-    void clear();
 }
