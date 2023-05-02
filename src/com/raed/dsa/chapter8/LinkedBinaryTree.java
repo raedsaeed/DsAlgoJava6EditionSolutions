@@ -1,5 +1,6 @@
 package com.raed.dsa.chapter8;
 
+import com.raed.dsa.chapter7.LinkedPositionalList;
 import com.raed.dsa.chapter7.Position;
 
 import java.util.Iterator;

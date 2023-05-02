@@ -197,7 +197,11 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
     }
 
     private Node<T> position(Position<T> position) {
-        if (!(position instanceof Node<T> node)) return null;
+        if (!(position instanceof Node)){
+            return null;
+        }
+
+        Node<T> node = (Node<T>) position;
         if (node.getNext() == null) return null;
         return (Node<T>) position;
     }
