@@ -1,6 +1,6 @@
 package com.raed.dsa;
 
-import com.raed.dsa.chapter7.*;
+import com.raed.dsa.chapter7list.*;
 
 import java.util.Random;
 

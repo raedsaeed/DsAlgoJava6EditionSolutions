@@ -1,6 +1,6 @@
 package com.raed.dsa;
 
-import com.raed.dsa.chapter7.ArrayList;
+import com.raed.dsa.chapter7list.ArrayList;
 
 /**
  * Created by Raed Saeed on 03/10/2021
