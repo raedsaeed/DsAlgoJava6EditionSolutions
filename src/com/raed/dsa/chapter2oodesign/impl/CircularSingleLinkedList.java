@@ -3,28 +3,29 @@ package com.raed.dsa.chapter2oodesign.impl;
 /**
  * Created by Raed Saeed on 8/19/2021
  **/
-public class CircularLinkedList<T> implements CircleLinkedList<T> {
+public class CircularSingleLinkedList<T> implements CircleLinkedList<T> {
     private Node<T> tail;
     private int size;
 
-    public CircularLinkedList() {
+    public CircularSingleLinkedList() {
 
     }
 
     public static void main(String[] args) {
-        CircularLinkedList<String> list = new CircularLinkedList<>();
+        CircularSingleLinkedList<String> list = new CircularSingleLinkedList<>();
         list.addFirst("Raed");
-        list.addLast("Naser");
+        list.addLast("Nasser");
         list.addLast("Ali");
-        list.addLast("Mahmoud");
         list.addLast("Ahmed");
         list.addLast("Saeed");
-        list.addLast("Mohamed");
-        System.out.println("First list ....");
         list.printElements();
-        System.out.println("Clearing list now ");
-        list.clear();
-        System.out.println("First " + list.getFirst());
+        System.out.println("********** Reversing ***************** ");
+        list.reverse();
+        list.printElements();
+        System.out.println("List has element Raed : " + list.contain("Raed"));
+        System.out.println("*************** Deleting last element " + list.removeLast() + " *************** ");
+        list.printElements();
+        System.out.println("List has element Raeds : " + list.contain("Mahmouds"));
     }
 
     @Override
@@ -52,11 +53,10 @@ public class CircularLinkedList<T> implements CircleLinkedList<T> {
     @Override
     public void addFirst(T element) {
         if (isEmpty()) {
-            tail = new Node<>(element, null, null);
+            tail = new Node<>(element,  null);
             tail.setNext(tail);
-            tail.setPrev(tail);
         } else {
-            Node<T> newNode = new Node<>(element, tail, tail.getNext());
+            Node<T> newNode = new Node<>(element, tail.getNext());
             tail.setNext(newNode);
         }
         size++;
@@ -81,18 +81,27 @@ public class CircularLinkedList<T> implements CircleLinkedList<T> {
     @Override
     public T removeLast() {
         if (tail == null) return null;
-        Node<T> last = tail;
-        Node<T> preLast = last.getPrev();
-        Node<T> firstElement = last.getNext();
-        firstElement.setPrev(preLast);
-        preLast.setNext(firstElement);
-        tail = preLast;
+        Node<T> walk = tail.getNext();
+        while(walk.getNext() != tail) {
+            walk = walk.getNext();
+        }
+        T element = tail.getElement();
+        walk.setNext(tail.getNext());
+        tail = walk;
         size--;
-        return last.getElement();
+        return element;
     }
 
     @Override
     public boolean contain(T t) {
+        if (isEmpty()) return false;
+        Node<T> walk = tail.getNext();
+        int step = 0;
+        while (step < size() && walk != null) {
+            if (walk.element == t) return true;
+            walk = walk.getNext();
+            step++;
+        }
         return false;
     }
 
@@ -103,7 +112,15 @@ public class CircularLinkedList<T> implements CircleLinkedList<T> {
 
     @Override
     public void reverse() {
-
+        Node<T> prev = null;
+        Node<T> current = tail.getNext();
+        while (current != null) {
+            Node<T> next = current.getNext();
+            current.setNext(prev);
+            prev = current;
+            current = next;
+        }
+        tail = prev;
     }
 
     @Override
@@ -128,22 +145,7 @@ public class CircularLinkedList<T> implements CircleLinkedList<T> {
         }
     }
 
-    public int getNormalSize() {
-        if (tail == null) return size;
-        Node<T> first = tail.getNext();
-        Node<T> last = tail;
-        int size = 0;
-
-        while (first != null) {
-            size++;
-            first = first.getNext();
-            if (first == last.getNext()) break;
-        }
-
-        return size;
-    }
-
-    public boolean hasSameSequence(CircularLinkedList<T> other) {
+    public boolean hasSameSequence(CircularSingleLinkedList<T> other) {
         if (tail == null || other.tail == null) return false;
 
         Node<T> first = tail.getNext();
@@ -172,7 +174,7 @@ public class CircularLinkedList<T> implements CircleLinkedList<T> {
         return true;
     }
 
-    public Node<T> getByIndex(int index) {
+    private Node<T> getByIndex(int index) {
         if (index < 0 || index > size) throw new IllegalArgumentException("Index " + index + ", List size is " + size);
         if (isEmpty()) return null;
         Node<T> node = tail.getNext();
@@ -185,7 +187,7 @@ public class CircularLinkedList<T> implements CircleLinkedList<T> {
     public void splitInto2() {
         Node<T> t1First = tail.getNext();
         Node<T> t1Last = getByIndex(size / 2);
-        CircularLinkedList<T> l1 = new CircularLinkedList<>();
+        CircularSingleLinkedList<T> l1 = new CircularSingleLinkedList<>();
         while (t1First.getElement() != null && t1First.getElement() != t1Last.getElement()) {
             l1.addLast(t1First.getElement());
             t1First = t1First.getNext();
@@ -195,12 +197,34 @@ public class CircularLinkedList<T> implements CircleLinkedList<T> {
 
         Node<T> t2First = getByIndex(size / 2);
         Node<T> t2Last = tail.getNext();
-        CircularLinkedList<T> l2 = new CircularLinkedList<>();
+        CircularSingleLinkedList<T> l2 = new CircularSingleLinkedList<>();
         while (t2First.getElement() != null && t2First.getElement() != t2Last.getElement()) {
             l2.addLast(t2First.getElement());
             t2First = t2First.getNext();
         }
         System.out.println("Second list");
         l2.printElements(l2.size);
+    }
+
+    private static class Node<E> {
+        private final E element;
+        private Node<E> next;
+
+        public Node(E element, Node<E> next) {
+            this.element = element;
+            this.next = next;
+        }
+
+        public E getElement() {
+            return element;
+        }
+
+        public Node<E> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<E> next) {
+            this.next = next;
+        }
     }
 }

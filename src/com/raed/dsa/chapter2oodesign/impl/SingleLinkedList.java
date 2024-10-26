@@ -19,10 +19,18 @@ public class SingleLinkedList<T> implements LinkedList<T> {
         list1.addLast("Ali");
         list2.addLast("Ahmed");
         list2.addLast("Saeed");
+
+        System.out.println("List contains Raed : " + list1.contain("Raed"));
+        System.out.println("List contains Raeds : " + list1.contain("Raeds"));
+
         list1.concatenate(list2);
 
         list1.reverse();
 
+        list1.printElements();
+        System.out.println("Deleting Last............" + list1.removeLast());
+        System.out.println("Deleting Last............" + list1.removeLast());
+        System.out.println("Deleting Last............" + list1.removeLast());
         list1.printElements();
     }
 
@@ -39,13 +47,13 @@ public class SingleLinkedList<T> implements LinkedList<T> {
     @Override
     public T getFirst() {
         if (isEmpty()) return null;
-        return head.getElement();
+        return head.element;
     }
 
     @Override
     public T getLast() {
         if (isEmpty()) return null;
-        return tail.getElement();
+        return tail.element;
     }
 
     @Override
@@ -70,18 +78,42 @@ public class SingleLinkedList<T> implements LinkedList<T> {
 
     @Override
     public T removeLast() {
-        return null;
+        if (isEmpty()) return null;
+
+        if (size() == 1) {
+            T element = head.element;
+            head = tail = null;
+            size--;
+            return element;
+        }
+
+        Node<T> walk = head;
+        while (walk.getNext() != null && walk.getNext() != tail) {
+            walk = walk.getNext();
+        }
+        walk.setNext(null);
+        T element = tail.element;
+        tail = walk;
+        size--;
+        return element;
     }
 
     @Override
     public boolean contain(T t) {
+        if (isEmpty()) return false;
+
+        Node<T> walk = head;
+        while (walk != null) {
+            if (walk.element == t) return true;
+            walk = walk.getNext();
+        }
         return false;
     }
 
     @Override
     public T removeFirst() {
         if (isEmpty()) return null;
-        T element = head.getElement();
+        T element = head.element;
         head = head.getNext();
         size--;
 
@@ -94,18 +126,16 @@ public class SingleLinkedList<T> implements LinkedList<T> {
     public void printElements() {
         Node<T> printer = head;
         while (printer != null) {
-            System.out.println(printer.getElement());
+            System.out.println(printer.element);
             printer = printer.getNext();
         }
     }
 
     /**
      * Write a method concatenate two single lists
-     *
-     * @return SingleLinkedList
      */
 
-    public SingleLinkedList<T> concatenate(SingleLinkedList<T> newList) {
+    public void concatenate(SingleLinkedList<T> newList) {
         if (isEmpty()) {
             this.head = newList.head;
         } else {
@@ -113,17 +143,18 @@ public class SingleLinkedList<T> implements LinkedList<T> {
         }
         this.tail = newList.tail;
         size += newList.size;
-        return this;
+        newList.head = null;
     }
 
-    public Node<T> getByIndex(int index) {
-        if (index < 0 || index > size) throw new IllegalArgumentException("Index " + index + ", List size is " + size);
+    public T getByIndex(int index) {
+        if (index < 0 || index > size())
+            throw new IllegalArgumentException("Index " + index + ", List size is " + size);
         if (isEmpty()) return null;
         Node<T> node = head;
         for (int i = 0; i != index; i++) {
             node = node.getNext();
         }
-        return node;
+        return node.element;
     }
 
     public void swap(T first, T second) {
@@ -131,14 +162,14 @@ public class SingleLinkedList<T> implements LinkedList<T> {
 
         Node<T> prevX = null;
         Node<T> currX = head;
-        while (currX != null && currX.getElement() != first) {
+        while (currX != null && currX.element != first) {
             prevX = currX;
             currX = currX.getNext();
         }
 
         Node<T> prevY = null;
         Node<T> currY = head;
-        while (currY != null && currY.getElement() != second) {
+        while (currY != null && currY.element != second) {
             prevY = currY;
             currY = currY.getNext();
         }
@@ -164,33 +195,14 @@ public class SingleLinkedList<T> implements LinkedList<T> {
         currY.setNext(temp);
     }
 
-    public int getNormalSize() {
-        int size = 0;
-        Node<T> item = head;
-        if (item == null) return size;
-        while (item != null) {
-            size++;
-            item = item.getNext();
-        }
-        return size;
-    }
-
-    public Node<T> findElement(T element) {
-        Node<T> current = head;
-        while (current != null && current.getElement() != element) {
-            current = current.getNext();
-        }
-
-        return current;
-    }
 
     @Override
     public void reverse() {
-        Node<T> current = head;
+        Node<T> current = tail = head;
         Node<T> prev = null;
         Node<T> next;
 
-        while (current != null && current.getElement() != null) {
+        while (current != null && current.element != null) {
             next = current.getNext();
             current.setNext(prev);
             prev = current;
@@ -205,6 +217,24 @@ public class SingleLinkedList<T> implements LinkedList<T> {
         while (size() > 0) {
             removeFirst();
         }
-        head = null;
+        head = tail = null;
+    }
+
+    private static class Node<E> {
+        private final E element;
+        private Node<E> next;
+
+        public Node(E element, Node<E> next) {
+            this.element = element;
+            this.next = next;
+        }
+
+        public Node<E> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<E> next) {
+            this.next = next;
+        }
     }
 }

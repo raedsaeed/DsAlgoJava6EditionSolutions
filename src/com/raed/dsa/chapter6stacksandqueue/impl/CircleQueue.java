@@ -1,7 +1,7 @@
 package com.raed.dsa.chapter6stacksandqueue.impl;
 
 import com.raed.dsa.chapter2oodesign.impl.CircleLinkedList;
-import com.raed.dsa.chapter2oodesign.impl.CircularLinkedList;
+import com.raed.dsa.chapter2oodesign.impl.CircularSingleLinkedList;
 
 /**
  * Created by Raed Saeed on 17/09/2021
@@ -10,7 +10,7 @@ public class CircleQueue<E> implements CircularQueue<E> {
     private final CircleLinkedList<E> list;
 
     public CircleQueue() {
-        list = new CircularLinkedList<>();
+        list = new CircularSingleLinkedList<>();
     }
 
     @Override
