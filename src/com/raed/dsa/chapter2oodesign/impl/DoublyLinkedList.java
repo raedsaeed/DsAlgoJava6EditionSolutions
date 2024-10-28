@@ -5,7 +5,7 @@ import com.raed.dsa.chapter6stacksandqueue.impl.Deque;
 /**
  * Created by Raed Saeed on 8/20/2021
  **/
-public class DoublyLinkedList<T> implements Deque<T> {
+public class DoublyLinkedList<T> implements Deque<T>, LinkedList<T> {
     private Node<T> head;
     private Node<T> tail;
     private int size = 0;
@@ -18,13 +18,15 @@ public class DoublyLinkedList<T> implements Deque<T> {
 
     public static void main(String[] args) {
         DoublyLinkedList<String> list1 = new DoublyLinkedList<>();
-        DoublyLinkedList<String> list2 = new DoublyLinkedList<>();
-//        list1.addLast("Raed");
-//        list1.addLast("Ali");
-
-        list2.addLast("Ahmed");
-        list2.addLast("Saeed");
-        list1.concatenate(list2).printElements();
+        list1.addLast("Raed");
+        list1.addLast("Ali");
+        list1.addLast("Ahmed");
+        list1.addLast("Saeed");
+        System.out.println("Before reversing");
+        list1.printElements();
+        System.out.println("After reversing");
+        list1.reverse();
+        list1.printElements();
 //        System.out.println(list1.getLast());
 //        System.out.println(list2.getFirst());
     }
@@ -36,6 +38,16 @@ public class DoublyLinkedList<T> implements Deque<T> {
 
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    @Override
+    public T getFirst() {
+        return first();
+    }
+
+    @Override
+    public T getLast() {
+        return last();
     }
 
     @Override
@@ -52,34 +64,45 @@ public class DoublyLinkedList<T> implements Deque<T> {
 
     @Override
     public void addFirst(T element) {
-        linkList(element, head, head.getNext());
+        addBetween(element, head, head.getNext());
     }
 
     @Override
     public void addLast(T element) {
-        linkList(element, tail.getPrev(), tail);
+        addBetween(element, tail.getPrev(), tail);
     }
 
     @Override
     public T removeFirst() {
         if (isEmpty()) return null;
-        return unLinkList(head.getNext());
+        return removeNode(head.getNext());
     }
 
     @Override
     public T removeLast() {
         if (isEmpty()) return null;
-        return unLinkList(tail.getPrev());
+        return removeNode(tail.getPrev());
     }
 
-    private void linkList(T element, Node<T> previous, Node<T> next) {
+    @Override
+    public boolean contain(T t) {
+        if (isEmpty()) return false;
+        Node<T> node = head;
+        while (node.getNext() != null) {
+            if (node.getElement() == t) return true;
+            node = node.getNext();
+        }
+        return false;
+    }
+
+    private void addBetween(T element, Node<T> previous, Node<T> next) {
         Node<T> newNode = new Node<>(element, previous, next);
         previous.setNext(newNode);
         next.setPrev(newNode);
         size++;
     }
 
-    private T unLinkList(Node<T> node) {
+    private T removeNode(Node<T> node) {
         Node<T> previous = node.getPrev();
         Node<T> next = node.getNext();
         previous.setNext(next);
@@ -90,10 +113,33 @@ public class DoublyLinkedList<T> implements Deque<T> {
 
     public void printElements() {
         Node<T> node = head.getNext();
-        while (node.getElement() != null) {
+        while (node != null && node.getElement() != null) {
             System.out.println(node.getElement());
             node = node.getNext();
         }
+    }
+
+    @Override
+    public void reverse() {
+        Node<T> current = head.getNext();
+        Node<T> last = head.getNext();
+        Node<T> prev = null;
+
+        head.setNext(tail.getPrev());
+        while (current.getNext() != null) {
+            Node<T> next = current.getNext();
+            current.setNext(prev);
+            current.setPrev(next);
+            prev = current;
+            current = next;
+        }
+        tail.setPrev(last);
+    }
+
+    @Override
+    public void clear() {
+        while (size() > 0) removeFirst();
+        head = tail = null;
     }
 
     public DoublyLinkedList<T> concatenate(DoublyLinkedList<T> other) {
@@ -122,5 +168,41 @@ public class DoublyLinkedList<T> implements Deque<T> {
             if (first == tail) break;
         }
         return size;
+    }
+
+    private static class Node<E> {
+        private E element;
+        private Node<E> next;
+        private Node<E> prev;
+
+        public Node(E element, Node<E> prev, Node<E> next) {
+            this.element = element;
+            this.next = next;
+            this.prev = prev;
+        }
+
+        public E getElement() {
+            return element;
+        }
+
+        public void setElement(E element) {
+            this.element = element;
+        }
+
+        public Node<E> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<E> next) {
+            this.next = next;
+        }
+
+        public Node<E> getPrev() {
+            return prev;
+        }
+
+        public void setPrev(Node<E> prev) {
+            this.prev = prev;
+        }
     }
 }
