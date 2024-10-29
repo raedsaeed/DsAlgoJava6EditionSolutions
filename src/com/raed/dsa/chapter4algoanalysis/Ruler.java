@@ -1,25 +1,11 @@
 package com.raed.dsa.chapter4algoanalysis;
 
-import java.util.Arrays;
-import java.util.Random;
-
 /**
  * Created by Raed Saeed on 9/4/2021
  **/
 public class Ruler {
     public static void main(String[] args) {
-//        drawRuler(2, 3);
-        Random random = new Random();
-        int[] data = new int[4];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = random.nextInt(5);
-        }
-
-        System.out.println("Array before sort " + Arrays.toString(data));
-        Arrays.sort(data);
-        System.out.println("Array after sort " + Arrays.toString(data));
-        int indexOf3 = binarySearch(data, 3, 0, data.length - 1);
-        System.out.println("Index is " + indexOf3);
+        drawRuler(3, 5);
     }
 
     private static int max(int[] data, int low, int max) {

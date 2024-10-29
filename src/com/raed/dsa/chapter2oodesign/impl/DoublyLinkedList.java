@@ -1,11 +1,9 @@
 package com.raed.dsa.chapter2oodesign.impl;
 
-import com.raed.dsa.chapter6stacksandqueue.impl.Deque;
-
 /**
  * Created by Raed Saeed on 8/20/2021
  **/
-public class DoublyLinkedList<T> implements Deque<T>, LinkedList<T> {
+public class DoublyLinkedList<T> implements LinkedList<T> {
     private Node<T> head;
     private Node<T> tail;
     private int size = 0;
@@ -38,16 +36,6 @@ public class DoublyLinkedList<T> implements Deque<T>, LinkedList<T> {
 
     public boolean isEmpty() {
         return size == 0;
-    }
-
-    @Override
-    public T getFirst() {
-        return first();
-    }
-
-    @Override
-    public T getLast() {
-        return last();
     }
 
     @Override

@@ -39,13 +39,13 @@ public class CircularSingleLinkedList<T> implements CircleLinkedList<T> {
     }
 
     @Override
-    public T getFirst() {
+    public T first() {
         if (isEmpty()) return null;
         return tail.getNext().getElement();
     }
 
     @Override
-    public T getLast() {
+    public T last() {
         if (isEmpty()) return null;
         return tail.getElement();
     }

@@ -6,10 +6,10 @@ import com.raed.dsa.chapter2oodesign.impl.CircularSingleLinkedList;
 /**
  * Created by Raed Saeed on 17/09/2021
  **/
-public class CircleQueue<E> implements CircularQueue<E> {
+public class CircleLinkedQueue<E> implements CircularQueue<E> {
     private final CircleLinkedList<E> list;
 
-    public CircleQueue() {
+    public CircleLinkedQueue() {
         list = new CircularSingleLinkedList<>();
     }
 
@@ -42,7 +42,7 @@ public class CircleQueue<E> implements CircularQueue<E> {
     @Override
     public E first() {
         if (isEmpty()) return null;
-        return list.getFirst();
+        return list.first();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.raed.dsa.chapter6stacksandqueue.impl;
 
-import com.raed.dsa.chapter2oodesign.impl.DoublyLinkedList;
 import com.raed.dsa.chapter2oodesign.impl.LinkedList;
 import com.raed.dsa.chapter2oodesign.impl.SingleLinkedList;
 
@@ -47,7 +46,7 @@ public class LinkedStack<T> implements Stack<T> {
         if (isEmpty()) {
             return null;
         }
-        return data.getFirst();
+        return data.first();
     }
 
     @Override
@@ -67,7 +66,7 @@ public class LinkedStack<T> implements Stack<T> {
     }
 
     public void copy(Stack<T> stack) {
-        Deque<T> queue = new DoublyLinkedList<>();
+        Deque<T> queue = new Dequeue<>();
         while (stack.top() != null) {
             queue.addFirst(stack.pop());
         }

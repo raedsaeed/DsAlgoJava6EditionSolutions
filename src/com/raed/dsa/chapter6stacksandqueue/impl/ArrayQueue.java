@@ -1,52 +1,56 @@
 package com.raed.dsa.chapter6stacksandqueue.impl;
 
-import com.raed.dsa.chapter7list.ArrayList;
-import com.raed.dsa.chapter7list.List;
-
 /**
  * Created by Raed Saeed on 17/09/2021
  **/
+
+@SuppressWarnings("UNCHECKED")
 public class ArrayQueue<E> implements Queue<E>, Cloneable {
     private static final int INITIAL_CAPACITY = 16;
-    private final List<E> data;
+    private final E[] data;
+    private int size;
+    private int f;
 
     public ArrayQueue() {
         this(INITIAL_CAPACITY);
     }
 
     public ArrayQueue(int capacity) {
-        data = new ArrayList<>(capacity);
+        data = (E[]) new Object[capacity];
     }
 
     @Override
     public int size() {
-        return data.size();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return data.isEmpty();
+        return size == 0;
     }
 
     @Override
     public void enqueue(E e) {
-        data.add(e);
+        if (size == data.length) throw new IllegalStateException("Queue is Full");
+        int available = (f + size) % data.length;
+        data[available] = e;
+        size++;
     }
 
     @Override
     public E dequeue() {
-        if (isEmpty()) {
-            return null;
-        }
-        return data.remove(0);
+        if (isEmpty()) return null;
+        E answer = data[f];
+        data[f] = null;
+        f = (f + 1) % data.length;
+        size--;
+        return answer;
     }
 
     @Override
     public E first() {
-        if (isEmpty()) {
-            return null;
-        }
-        return data.get(0);
+        if (isEmpty()) return null;
+        return data[f];
     }
 
     @Override

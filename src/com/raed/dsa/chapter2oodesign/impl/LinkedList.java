@@ -8,9 +8,9 @@ public interface LinkedList<E> {
 
     boolean isEmpty();
 
-    E getFirst();
+    E first();
 
-    E getLast();
+    E last();
 
     void addFirst(E e);
 

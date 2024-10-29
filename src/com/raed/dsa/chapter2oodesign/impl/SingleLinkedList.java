@@ -45,13 +45,13 @@ public class SingleLinkedList<T> implements LinkedList<T> {
     }
 
     @Override
-    public T getFirst() {
+    public T first() {
         if (isEmpty()) return null;
         return head.element;
     }
 
     @Override
-    public T getLast() {
+    public T last() {
         if (isEmpty()) return null;
         return tail.element;
     }

@@ -1,11 +1,17 @@
 package com.raed.dsa.chapter6stacksandqueue.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Raed Saeed on 19/09/2021
  **/
 public class Utils {
+    public static void main(String[] args) {
+        permute(3, new ArrayList<>(List.of('a', 'b', 'c')), new ArrayList<>());
+    }
+
     public static boolean isHTMLMatched(String html) {
         Stack<String> buffer = new LinkedStack<>();
         int j = html.indexOf('<'); // find first ’<’ character (if any)
@@ -150,5 +156,22 @@ public class Utils {
         }
 
         return number * factorial(number - 1);
+    }
+
+    public static <T> void permute(int k, ArrayList<T> set, ArrayList<T> contains) {
+        for (int i = 0; i < set.size(); i++) {
+            T e = set.get(i);
+            set.remove(i);
+            contains.add(e);
+
+            if (k == 1) {
+                System.out.println(Arrays.toString(contains.toArray()));
+            } else {
+                permute(k - 1, set, contains);
+            }
+
+            set.add(i, e);
+            contains.remove(e);
+        }
     }
 }

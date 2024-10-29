@@ -7,7 +7,6 @@ import com.raed.dsa.chapter7list.List;
  * Created by Raed Saeed on 17/09/2021
  **/
 
-@SuppressWarnings("unchecked")
 public class ArrayStack<T> implements Stack<T>, Cloneable {
     private static final int INITIAL_CAPACITY = 1000;
     private final List<T> data;
