@@ -1,6 +1,7 @@
 package com.raed.dsa;
 
-import com.raed.dsa.chapter7list.*;
+import com.raed.dsa.chapter7list.LinkedPositionalList;
+import com.raed.dsa.sorting.LinkedListSort;
 
 import java.util.Random;
 
@@ -46,26 +47,21 @@ public class Main {
 //        Utils.getAllPermutation(chars, 0);
 //        Utils.permute(chars, 0);
 
+        Random random = new Random(1000);
         LinkedPositionalList<Integer> arrayList = new LinkedPositionalList<>();
         for (int i = 0; i < 10; i++) {
-            arrayList.addLast(i );
+            arrayList.addLast(random.nextInt(1000));
         }
-
-        int randomItemOne = new Random().nextInt(10);
-        int randomItemOTwo = new Random().nextInt(10);
-
-        Position<Integer> first = arrayList.findPosition(randomItemOne);
-        Position<Integer> second = arrayList.findPosition(randomItemOTwo);
 
         for (Integer integer : arrayList) {
             System.out.println("integer is " + integer);
         }
 
-        System.out.println("Swapping " + first.getElement() + " with " + second.getElement());
-        arrayList.swap(first, second);
+        System.out.println("After Sorting");
+        LinkedListSort.sort(arrayList);
 
         for (Integer integer : arrayList) {
-            System.out.println("Integer is " + integer);
+            System.out.println("integer is " + integer);
         }
     }
 }

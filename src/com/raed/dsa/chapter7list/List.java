@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * Created by Raed Saeed on 26/09/2021
  **/
-public interface List<T> extends Collections<T>{
+public interface List<T> extends Collections<T> {
     int size();
 
     boolean isEmpty();

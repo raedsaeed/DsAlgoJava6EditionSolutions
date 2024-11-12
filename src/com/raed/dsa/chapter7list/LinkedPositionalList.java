@@ -3,6 +3,7 @@ package com.raed.dsa.chapter7list;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * Created by Raed Saeed on 26/09/2021
@@ -121,11 +122,12 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
 
     @Override
     public int indexOf(Position<T> p) {
-        int index = -1;
-        if (validate(p) != null) {
-            for (Position<T> position : positions()) {
-                index++;
-                if (p.getElement().equals(position.getElement())) break;
+        int index = -1, count = -1;
+        if (validate(p) == null) return index;
+        for (T element : this) {
+            count++;
+            if (element.equals(p.getElement())){
+                index = count;
             }
         }
         return index;
@@ -197,13 +199,12 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
     }
 
     private Node<T> position(Position<T> position) {
-        if (!(position instanceof Node)){
+        if (!(position instanceof Node<T> node)) {
             return null;
         }
 
-        Node<T> node = (Node<T>) position;
         if (node.getNext() == null) return null;
-        return (Node<T>) position;
+        return node;
     }
 
     private Position<T> addBetween(T e, Node<T> prev, Node<T> next) {
@@ -256,6 +257,28 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
         public void setPrev(Node<T> prev) {
             this.prev = prev;
         }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(next, prev, element);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Node<?> node = (Node<?>) o;
+            return Objects.equals(next, node.next) &&
+                    Objects.equals(prev, node.prev) &&
+                    Objects.equals(element, node.element);
+        }
+    }
+
+    private class PositionalIterable implements Iterable<Position<T>> {
+        @Override
+        public Iterator<Position<T>> iterator() {
+            return new PositionIterator();
+        }
     }
 
     private class PositionIterator implements Iterator<Position<T>> {
@@ -280,13 +303,6 @@ public class LinkedPositionalList<T> implements PositionalList<T> {
             if (recent == null) throw new IllegalArgumentException("Nothing to remove");
             LinkedPositionalList.this.remove(recent);
             recent = null;
-        }
-    }
-
-    private class PositionalIterable implements Iterable<Position<T>> {
-        @Override
-        public Iterator<Position<T>> iterator() {
-            return new PositionIterator();
         }
     }
 

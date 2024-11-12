@@ -10,6 +10,7 @@ import java.util.List;
 public class Utils {
     public static void main(String[] args) {
         permute(3, new ArrayList<>(List.of('a', 'b', 'c')), new ArrayList<>());
+        System.out.println(postfix("((5+2) * (8 - 3)) / 4"));
     }
 
     public static boolean isHTMLMatched(String html) {
@@ -37,39 +38,40 @@ public class Utils {
         return buffer.isEmpty(); // were all opening tags matched?
     }
 
-    public static String postfixNotation(String equation) {
-        int j = 0;
-        StringBuilder finalExpression = new StringBuilder();
-        LinkedStack<Character> numbers = new LinkedStack<>();
+    public static String postfix(String equation) {
+        StringBuilder expression = new StringBuilder();
         LinkedStack<Character> operators = new LinkedStack<>();
+        int i = 0;
+        while (i < equation.length()) {
+            char ch = equation.charAt(i);
 
-        while (j < equation.length()) {
-            char mC = equation.charAt(j);
-            if (mC == '*' || mC == '-' || mC == '+' || mC == '/') {
-                operators.push(mC);
-            } else {
-                if (mC == ')') {
-                    while (numbers.top() != '(') {
-                        finalExpression.append(numbers.pop());
-                    }
-                    numbers.pop();
-                    finalExpression.append(operators.pop());
-                } else {
-                    numbers.push(mC);
-                }
+            if (ch == ' ') {
+                i++;
+                continue;
             }
-            j++;
+
+            if (ch == '*' || ch == '/' || ch == '+' || ch == '-' || ch == '(') {
+                operators.push(ch);
+                i++;
+                continue;
+            }
+
+            if (ch == ')') {
+                while (operators.top() != '(') {
+                    expression.append(operators.pop());
+                }
+                operators.pop();
+            } else {
+                expression.append(ch);
+            }
+            i++;
         }
 
-        if (!numbers.isEmpty()) {
-            finalExpression.append(numbers.pop());
+        while (!operators.isEmpty()) {
+            expression.append(operators.pop());
         }
 
-        if (!operators.isEmpty()) {
-            finalExpression.append(operators.pop());
-        }
-
-        return finalExpression.toString();
+        return expression.toString();
     }
 
     public static String getSubsets(Object[] arr) {
