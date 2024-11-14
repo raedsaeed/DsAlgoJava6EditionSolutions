@@ -5,7 +5,7 @@ package com.raed.dsa.chapter7list;
  **/
 // todo CircularArrayList not completed
 public class CircularArrayList<T> extends ArrayList<T> {
-    private int first = 0;
+    private final int first = 0;
 
     public CircularArrayList() {
         this(DEFAULT_CAPACITY);
