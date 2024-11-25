@@ -7,15 +7,15 @@ import java.util.Iterator;
 /**
  * Created by Raed Saeed on 14/11/2024
  */
-public class PriorityQueue<T extends Comparable<T>> implements PQueue<T> {
-    private final HeapList<T> heap;
+public class PriorityQueue<T extends Comparable<T>> implements PriorityQueueADT<T> {
+    private final Heap<T> heap;
 
     public PriorityQueue() {
-        heap = new HeapList<>();
+        heap = new Heap<>();
     }
 
     public PriorityQueue(Comparator<T> comparator) {
-        heap = new HeapList<>(comparator);
+        heap = new Heap<>(comparator);
     }
 
     @Override

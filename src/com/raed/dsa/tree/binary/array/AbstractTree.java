@@ -1,4 +1,4 @@
-package com.raed.dsa.tree.array;
+package com.raed.dsa.tree.binary.array;
 
 
 import com.raed.dsa.chapter6stacksandqueue.impl.LinkedQueue;

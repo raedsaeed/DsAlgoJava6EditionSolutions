@@ -6,7 +6,7 @@ import com.raed.dsa.chapter7list.Collections;
 /**
  * Created by Raed Saeed on 14/11/2024
  */
-public interface PQueue<T> extends Collections<T> {
+public interface PriorityQueueADT<T> extends Collections<T> {
     int size();
 
     boolean isEmpty();
