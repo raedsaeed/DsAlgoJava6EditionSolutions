@@ -6,6 +6,8 @@ import com.raed.dsa.chapter7list.ArrayList;
 import com.raed.dsa.chapter7list.List;
 import com.raed.dsa.chapter7list.Position;
 
+import java.util.TreeMap;
+
 /**
  * Created by Raed Saeed on 13/10/2021
  **/
@@ -40,7 +42,7 @@ public abstract class AbstractTree<E> implements Tree<E> {
     public int height(Position<E> position) {
         int h = 0;
         for (Position<E> e : children(position)) {
-            h = Math.max(h, height(e));
+            h = Math.max(h, 1 + height(e));
         }
         return h;
     }
