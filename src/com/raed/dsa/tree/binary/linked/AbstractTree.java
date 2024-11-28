@@ -6,8 +6,6 @@ import com.raed.dsa.chapter7list.ArrayList;
 import com.raed.dsa.chapter7list.List;
 import com.raed.dsa.chapter7list.Position;
 
-import java.util.TreeMap;
-
 /**
  * Created by Raed Saeed on 13/10/2021
  **/
