@@ -70,7 +70,6 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V> {
         }
 
         this.capacity = newCap;
-        length = 0;
         createTable();
         for (Entry<K, V> entry : entries) {
             bucketPut(hashKey(entry.getKey()), entry.getKey(), entry.getValue());

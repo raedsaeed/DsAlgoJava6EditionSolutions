@@ -1,4 +1,4 @@
-package com.raed.dsa.tree.binary.array;
+package com.raed.dsa.tree.array;
 
 
 /**
@@ -6,7 +6,7 @@ package com.raed.dsa.tree.binary.array;
  */
 public class TreeMainTest {
     public static void main(String[] args) {
-        ArrayBinaryTree<String> family = new ArrayBinaryTree<>();
+        ArrayBinaryIndexableTree<String> family = new ArrayBinaryIndexableTree<>();
         family.addRoot("Saeed");
         family.addLeft(0, "Ahmed");
         family.addRight(0, "Ali");

@@ -1,4 +1,4 @@
-package com.raed.dsa.tree.binary.linked;
+package com.raed.dsa.tree.linked;
 
 import com.raed.dsa.chapter7list.Collections;
 import com.raed.dsa.chapter7list.Position;

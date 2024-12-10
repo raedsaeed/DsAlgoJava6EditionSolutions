@@ -1,4 +1,4 @@
-package com.raed.dsa.tree.binary.array;
+package com.raed.dsa.tree.array;
 
 
 import com.raed.dsa.chapter7list.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Iterator;
  * Created by Raed Saeed on 13/11/2024
  */
 
-public abstract class AbstractBinaryTree<E> extends AbstractTree<E> implements BinaryTree<E> {
+public abstract class AbstractBinaryIndexableTree<E> extends AbstractIndexableTree<E> implements BinaryIndexableTree<E> {
     @Override
     public int left(int index) throws IllegalArgumentException {
         if (index < 0 || index > size()) throw new IllegalArgumentException("Invalid index " + index);

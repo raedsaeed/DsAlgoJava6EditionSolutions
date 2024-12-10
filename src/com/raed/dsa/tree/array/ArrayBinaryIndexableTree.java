@@ -1,4 +1,4 @@
-package com.raed.dsa.tree.binary.array;
+package com.raed.dsa.tree.array;
 
 
 import com.raed.dsa.chapter7list.ArrayList;
@@ -7,7 +7,7 @@ import com.raed.dsa.chapter7list.List;
 /**
  * Created by Raed Saeed on 13/11/2024
  */
-public class ArrayBinaryTree<T> extends AbstractBinaryTree<T> {
+public class ArrayBinaryIndexableTree<T> extends AbstractBinaryIndexableTree<T> {
     private final List<T> list = new ArrayList<>();
 
     public T addRoot(T t) {

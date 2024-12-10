@@ -1,4 +1,4 @@
-package com.raed.dsa.tree.binary.array;
+package com.raed.dsa.tree.array;
 
 
 import com.raed.dsa.chapter6stacksandqueue.impl.LinkedQueue;
@@ -8,7 +8,7 @@ import com.raed.dsa.chapter7list.ArrayList;
 /**
  * Created by Raed Saeed on 13/11/2024
  */
-public abstract class AbstractTree<E> implements Tree<E> {
+public abstract class AbstractIndexableTree<E> implements IndexableTree<E> {
 
     @Override
     public boolean isInternal(int index) throws IndexOutOfBoundsException {

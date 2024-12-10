@@ -1,4 +1,4 @@
-package com.raed.dsa.tree.binary.linked;
+package com.raed.dsa.tree.linked;
 
 import com.raed.dsa.chapter7list.Position;
 
@@ -10,10 +10,6 @@ import java.util.Iterator;
 public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
     protected Node<E> root = null;
     private int size;
-
-    public LinkedBinaryTree() {
-
-    }
 
     protected Node<E> validate(Position<E> position) {
         if (!(position instanceof Node<E> node))
@@ -64,22 +60,20 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
         return root;
     }
 
-    public Position<E> addLeft(Position<E> p, E e) throws IllegalStateException {
+    public void addLeft(Position<E> p, E e) throws IllegalStateException {
         Node<E> parent = validate(p);
         if (parent.getLeft() != null) throw new IllegalStateException("Position already has a left child");
         Node<E> child = createNode(e, parent, null, null);
         parent.setLeft(child);
         size++;
-        return child;
     }
 
-    public Position<E> addRight(Position<E> p, E e) throws IllegalStateException {
+    public void addRight(Position<E> p, E e) throws IllegalStateException {
         Node<E> parent = validate(p);
         if (parent.getRight() != null) throw new IllegalStateException("Position already has a right child");
         Node<E> child = createNode(e, parent, null, null);
         parent.setRight(child);
         size++;
-        return child;
     }
 
     public E set(Position<E> p, E e) throws IllegalArgumentException {
@@ -87,6 +81,85 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
         E temp = node.getElement();
         node.setElement(e);
         return temp;
+    }
+
+    /**
+     * relink a parent node with its oriented child node.
+     */
+    private void relink(Node<E> parent, Node<E> child, boolean isLeft) {
+        child.setParent(parent);
+        if (isLeft) parent.setLeft(child);
+        else parent.setRight(child);
+    }
+
+    /**
+     * Rotates Position p above its parent.  Switches between these
+     * configurations, depending on whether p is a or p is b.
+     * <pre>
+     *          b                  a
+     *         / \                / \
+     *        a  t2             t0   b
+     *       / \                    / \
+     *      t0  t1                 t1  t2
+     * </pre>
+     * Caller should ensure that p is not the root.
+     */
+    protected void rotate(Position<E> position) {
+        Node<E> x = validate(position);
+        Node<E> y = x.parent;
+
+        if (y == null) return;
+        Node<E> z = y.parent;
+
+        if (z != null) {
+            relink(z, x, x == y.left);
+        } else {
+            x.setParent(null);
+            root = x;
+        }
+
+        if (x == y.left) {
+            relink(y, x.right, true);
+            relink(x, y, false);
+        } else {
+            relink(y, x.left, false);
+            relink(x, y, true);
+        }
+    }
+
+    /**
+     * Returns the Position that becomes the root of the restructured subtree.
+     * <p>
+     * Assumes the nodes are in one of the following configurations:
+     * <pre>
+     *     z=a                 z=c           z=a               z=c
+     *    /  \                /  \          /  \              /  \
+     *   t0  y=b             y=b  t3       t0   y=c          y=a  t3
+     *      /  \            /  \               /  \         /  \
+     *     t1  x=c         x=a  t2            x=b  t3      t0   x=b
+     *        /  \        /  \               /  \              /  \
+     *       t2  t3      t0  t1             t1  t2            t1  t2
+     * </pre>
+     * The subtree will be restructured so that the node with key b becomes its root.
+     * <pre>
+     *           b
+     *         /   \
+     *       a       c
+     *      / \     / \
+     *     t0  t1  t2  t3
+     * </pre>
+     * Caller should ensure that x has a grandparent.
+     */
+    protected Position<E> restructure(Position<E> x) {
+        Position<E> y = parent(x);
+        Position<E> z = parent(y);
+        if ((x == left(y) == (y == left(z)))) {
+            rotate(y);
+            return y;
+        }
+        rotate(x);
+        rotate(x);
+        return x;
     }
 
     public void attach(Position<E> p, LinkedBinaryTree<E> tree1, LinkedBinaryTree<E> tree2) throws IllegalArgumentException {
@@ -152,6 +225,7 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
         private Node<E> parent;
         private Node<E> left;
         private Node<E> right;
+        private int aux;
 
         public Node(E element, Node<E> parent, Node<E> leftChild, Node<E> rightChild) {
             this.element = element;
@@ -191,6 +265,14 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 
         public void setRight(Node<E> right) {
             this.right = right;
+        }
+
+        public int getAux() {
+            return aux;
+        }
+
+        public void setAux(int aux) {
+            this.aux = aux;
         }
     }
 

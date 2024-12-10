@@ -1,11 +1,11 @@
-package com.raed.dsa.tree.binary.array;
+package com.raed.dsa.tree.array;
 
 
 /**
  * Created by Raed Saeed on 13/11/2024
  */
 
-public interface Tree<E> extends Iterable<E> {
+public interface IndexableTree<E> extends Iterable<E> {
     E getElement(int index);
 
     boolean isEmpty();
